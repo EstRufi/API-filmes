@@ -21,41 +21,47 @@ const knexConection = knex(knexDataBaseConfig.development)
 
 // Função para inserir um novo filme no banco de dados
 const insertFilme = async function(filme){
-    let sql = `insert into tbl_filme (
-	    nome,
-        sinopse,
-        capa,
-        data_lancamento,
-        duracao,
-        valor,
-        avaliacao
-    ) values(
-	    '${filme.nome}',
-    
-        '${filme.sinopse}',
-    
-        '${filme.capa}',
-    
-        '${filme.data_lancamento}',
-    
-        '${filme.duracao}',
-    
-        '${filme.valor}',
-    
-        '${filme.avaliacao}'
-    );`
+    try {
 
-    // como dar um de BUG
-    // dar um console.log na variavel. como é do sql vc pode colocar lá no banco para ver qual é o erro
+        let sql = `insert into tbl_filme (
+            nome,
+            sinopse,
+            capa,
+            data_lancamento,
+            duracao,
+            valor,
+            avaliacao
+        ) values(
+            '${filme.nome}',
+        
+            '${filme.sinopse}',
+        
+            '${filme.capa}',
+        
+            '${filme.data_lancamento}',
+        
+            '${filme.duracao}',
+        
+            '${filme.valor}',
+        
+            if('${filme.avaliacao}' = '',null, '${filme.avaliacao}')
+        );`
 
-    // Encaminha para o BD o scriptSQL
-    // await faz que o JavaScript PARE e não prosiga, assim dá tempo o banco responder para poder continuar a aplicação
-    let result = await knexConection.raw(sql)
-    
-    if(result)
-        return true
-    else
+        // como dar um de BUG
+        // dar um console.log na variavel. como é do sql vc pode colocar lá no banco para ver qual é o erro
+
+        // Encaminha para o BD o scriptSQL
+        // await faz que o JavaScript PARE e não prosiga, assim dá tempo o banco responder para poder continuar a aplicação
+        let result = await knexConection.raw(sql)
+        
+        if(result)
+            return true
+        else
+            return false
+    } 
+    catch (error) {
         return false
+    }
 }
 
 // Função para atualizar um filme existente no banco de dados

@@ -34,6 +34,18 @@ const ERROR_INTERNAL_SERVER_MODEL = {
     message: 'Não foi possível processar a requisição devido a um erro interno no servidor [MODEL]'
 }
 
+const ERROR_INTERNAL_SERVER_CONTROLLER = {
+    status: false, 
+    status_code: 500,
+    message: 'Não foi possível processar a requisição devido a um erro interno no servidor [CONTROLLER]'
+}
+
+const ERROR_CONTENT_TYPE = {
+    status: false, 
+    status_code: 415,
+    message: 'Não foi possível processar a requisição, pois o formato de dados encaminhado não é suportado pelo servidor, apenas deve ser utilizado JSON.'
+}
+
 // Mensagens de SUCESSO do projeto de filmes
 const SUCCES_CREATED_ITEM = {
     status: true,
@@ -45,6 +57,8 @@ module.exports = {
     DEFAULT_MESSAGE,
     ERROR_BAD_REQUEST,
     ERROR_INTERNAL_SERVER_MODEL,
+    ERROR_INTERNAL_SERVER_CONTROLLER,
+    ERROR_CONTENT_TYPE,
     SUCCES_CREATED_ITEM,
     
 }
