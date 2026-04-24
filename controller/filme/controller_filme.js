@@ -60,12 +60,75 @@ const atualizarFilme = async function(){
 
 //Função para retornar todos os fulmes existentes
 const listarFilme = async function(){
+    let customMessage = JSON.parse(JSON.stringify(configMenssages))
 
+    try {
+        // Chama a função do DAO para retornar a lista de filmes do BD
+        let result = await filmeDAO.selectAllFilme()
+        // Validação para verificar se o DAO conseguiu processar o script no BD
+        if(result){
+            //Validar para verificar se o conteúdo do ARRAy tem dados de
+            //retorno ou se está vazio
+            if(result.length > 0){
+                customMessage.DEFAULT_MESSAGE.status = customMessage.SUCCES_RESPONSE.status
+                customMessage.DEFAULT_MESSAGE.status_code = customMessage.SUCCES_RESPONSE.status_code
+                customMessage.DEFAULT_MESSAGE.response.cout = result.length
+                customMessage.DEFAULT_MESSAGE.response.filme = result
+
+                return customMessage.DEFAULT_MESSAGE
+            }
+            else{
+                return customMessage.ERROR_NOT_FOUND // 404
+            }
+        }
+        else{
+            return customMessage.ERROR_INTERNAL_SERVER_MODEL // 500 (Model)
+        }
+    } catch (error) {
+        return customMessage.ERROR_INTERNAL_SERVER_CONTROLLER // 500 (controller)
+    }
 }
 
 //Função para retornar um filme filtrando pelo ID
-const buscarFilme = async function(){
+const buscarFilme = async function(id){
+    let customMessage = JSON.parse(JSON.stringify(configMenssages))
 
+    try {
+        // validação para garantir que o id seja um número válido
+        if(String(id).replaceAll(' ', '') == ''|| id == null || id == undefined || isNaN(id)){
+            customMessage.ERROR_BAD_REQUEST.field = '[ID] INVÁLIDO'
+            return customMessage.ERROR_BAD_REQUEST //400
+        }
+        else{
+            // chama a função do DAO para pesquisar o filme pelo ID
+            let result = await filmeDAO.selectByIdFilme(id)
+
+            // Validação para verificar se o DAO retornou dados ou um false (erro)
+            if(result){
+
+                // Validação para verificar se o DAO tem  algum dado no Array
+                if(result.length >0){
+                    customMessage.DEFAULT_MESSAGE.status = customMessage.SUCCES_RESPONSE.status
+                    customMessage.DEFAULT_MESSAGE.status_code = customMessage.SUCCES_RESPONSE.status_code
+                    customMessage.DEFAULT_MESSAGE.response.filme = result
+
+                    return customMessage.DEFAULT_MESSAGE //200 
+                }
+                else{
+                    return customMessage.ERROR_NOT_FOUND // 404
+                }
+
+            }
+
+            else{
+                return customMessage.ERROR_INTERNAL_SERVER_MODEL // 500 (model)
+            }
+
+        }
+        
+    } catch (error) {
+        return customMessage.ERROR_INTERNAL_SERVER_CONTROLLER // 500 (controller)
+    }
 }
 
 //Função para excluir um filme

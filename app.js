@@ -24,6 +24,7 @@ const corsOption = {
 app.use(cors(corsOption))
 
 //ENDPOINTS
+//OBS: não há problema a url ser diferente se o verbo for diferente
 app.post('/v1/senai/locadora/filme',bodyParserJson, async function (request, response){
     // npm install body-parser  --save para receber o que o front mandar
 
@@ -35,6 +36,24 @@ app.post('/v1/senai/locadora/filme',bodyParserJson, async function (request, res
 
     
     let result = await controllerFilme.inserirNovoFilme(dados, contentType)
+
+    response.status(result.status_code)
+    response.json(result)
+})
+
+app.get('/v1/senai/locadora/filme', async function(request,response){
+    let result = await controllerFilme.listarFilme()
+
+    response.status(result.status_code)
+    response.json(result)
+})
+
+app.get('/v1/senai/locadora/filme/:id',async function(request, response){
+
+    // Recebe o id do filme via parametro
+    let id = request.params.id
+
+    let result = await controllerFilme.buscarFilme(id)
 
     response.status(result.status_code)
     response.json(result)
