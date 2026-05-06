@@ -1,13 +1,13 @@
-#Permite criar um database
+	#Permite criar um database
 create database db_filmes_20261_b;
 
-#Permite visualizae todos os databases existentes 
+	#Permite visualizae todos os databases existentes 
 show databases;
 
-#Permite escolher o database a ser utilizado
+	#Permite escolher o database a ser utilizado
 use db_filmes_20261_b;
 
-#Permite visualizar todas as tabelas existentes dentro do database
+	#Permite visualizar todas as tabelas existentes dentro do database
 show tables;
 
 create table tbl_filme (
@@ -21,7 +21,7 @@ create table tbl_filme (
     avaliacao 			decimal(3,2) default null
 );
 
-# se caso vc queira te ferrar ou ferrar o amigo use o drop mas não é recomendado (só se quiser ferrar o amigo)
+	# se caso vc queira te ferrar ou ferrar o amigo use o drop mas não é recomendado (só se quiser ferrar o amigo)
 
 insert into tbl_filme (
 	nome,
@@ -52,8 +52,20 @@ insert into tbl_filme (
 
 select * from tbl_filme order by id desc;
 
-# Aqui vc seleciona qual id vc quer
+	# Aqui vc seleciona qual id vc quer por meio do id
 select * from tbl_filme where id = 26;
 
-# aqui vc podera deletar algo da tabela, mas o id sempre sera um diferente
+	# aqui vc podera deletar algo da tabela, mas o id sempre sera um diferente
 delete from tbl_filme where id > 0;
+	#Fazendo a tabela de update, ela pode ser considerada bem perigosa caso você não fale qual 
+	# tabela gostaria de atualizar, ela irá mudar todos os nomes sem acessão.
+	# NUNCA ESQUECER DE UTILIZAR O WHERE PARA EVITAR ERROS!!
+update tbl_filme set
+	nome = 'Filme 03',
+    sinopse = 'teste',
+    capa = 'teste.png',
+    data_lancamento = '2026-04-29',
+    duracao = '01:50:00',
+    valor = '10',
+    avaliacao = '5'
+    where id = 53;
