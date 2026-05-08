@@ -30,8 +30,9 @@ const inserirNovoFilme = async function(filme, contentType){
                 return validar //400
             } 
             else{
+
                 // encaminha os dados do filme para o DAO inserir no BD
-                let result = await filmeDAO.insertFilme(filme)
+                let result = await filmeDAO.insertFilme(await tratarDados(filme))
 
                 if(result){//201
                     // Cria o ID no JSON do filme e adiciona o id gerado no DAO
@@ -85,7 +86,7 @@ const atualizarFilme = async function(filme, id, contentType){
                         filme.id = Number(id)
 
                         // Chama a função para atualizar o filme no banco de dados.
-                        let result = await filmeDAO.updateFilme(filme)
+                        let result = await filmeDAO.updateFilme(await tratarDados(filme))
                         
                         if (result) {
 
@@ -260,10 +261,25 @@ const validarDados = async function(filme){
     }
 }
 
+// função para tratar os dados a serem inseridos
+const tratarDados = async function(filme){
+            // Tratatmento para eliminar a chegada da aspas (') como caracter inválido
+        // Isso é para que eu possa proibir que alguem tente quebrar meu banco ou coloca '
+        filme.nome = filme.nome.replaceAll("'","")
+        filme.sinopse = filme.sinopse.replaceAll("'","")
+        filme.capa = filme.capa.replaceAll("'","")
+        filme.data_lancamento = filme.data_lancamento.replaceAll("'","")
+        filme.duracao = filme.duracao.replaceAll("'","")
+        filme.valor = filme.valor.replaceAll("'","")
+        filme.avaliacao = filme.avaliacao.replaceAll("'","")
+    
+    return filme
+}
 module.exports = {
     inserirNovoFilme,
     atualizarFilme,
     listarFilme,
     buscarFilme,
-    excluirFilme
+    excluirFilme,
+    tratarDados
 }
