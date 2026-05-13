@@ -23,7 +23,7 @@ const corsOption = {
 
 app.use(cors(corsOption))
 
-//ENDPOINTS
+//ENDPOINTS FILME
 //OBS: não há problema a url ser diferente se o verbo for diferente
 app.post('/v1/senai/locadora/filme',bodyParserJson, async function (request, response){
     // npm install body-parser  --save para receber o que o front mandar
@@ -85,6 +85,14 @@ app.delete('/v1/senai/locadora/filme/:id', async function(request, response){
     response.status(result.status_code)
     response.json(result)
 })
+
+// Genero
+
+app.post('/v1/senai/locadora/genero', bodyParserJson,async function(request,response){
+    let dados = request.body
+
+})
+
 //Fazer o Start na API (aguardando as requisições)
 app.listen(8080, function(){
     console.log("API aguardando novas requisições . . . .")
