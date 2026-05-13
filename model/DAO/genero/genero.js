@@ -33,3 +33,7 @@ const insertGenero = async function(genero){
         return false
     }  
 }
+
+module.exports = {
+    insertGenero
+}

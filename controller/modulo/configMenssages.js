@@ -12,7 +12,7 @@
 const DEFAULT_MESSAGE = {
     api_description: 'API para controlar o projeto de Filmes',
     development: 'Estela Rufino Brito',
-    version: '1.0.4.26',
+    version: '1.1.5.26',
     status: Boolean,
     status_code: Number,
     response: {
