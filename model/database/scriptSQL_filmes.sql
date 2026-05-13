@@ -53,19 +53,31 @@ insert into tbl_filme (
 select * from tbl_filme order by id desc;
 
 	# Aqui vc seleciona qual id vc quer por meio do id
-select * from tbl_filme where id = 26;
+# select * from tbl_filme where id = 26;
 
 	# aqui vc podera deletar algo da tabela, mas o id sempre sera um diferente
-delete from tbl_filme where id = 28;
+# delete from tbl_filme where id = 28;
 	#Fazendo a tabela de update, ela pode ser considerada bem perigosa caso você não fale qual 
 	# tabela gostaria de atualizar, ela irá mudar todos os nomes sem acessão.
 	# NUNCA ESQUECER DE UTILIZAR O WHERE PARA EVITAR ERROS!!
-update tbl_filme set
-	nome = 'Texte Numero 10',
-    sinopse = 'teste',
-    capa = 'teste.png',
-    data_lancamento = '2026-04-29',
-    duracao = '01:50:00',
-    valor = '10',
-    avaliacao = '5'
-    where id = 27;
+#update tbl_filme set
+#	nome = 'Texte Numero 10',
+#    sinopse = 'teste',
+#    capa = 'teste.png',
+#    data_lancamento = '2026-04-29',
+#    duracao = '01:50:00',
+ #   valor = '10',
+ #   avaliacao = '5'
+ #   where id = 27;
+ 
+ create table tbl_genero (
+	id int not null auto_increment primary key,
+    nome varchar(30) not null
+ );
+ 
+ insert into tbl_genero(
+	nome
+ )values(
+ replace('drama',"'","")
+ );
+  select * from tbl_genero order by id desc;
