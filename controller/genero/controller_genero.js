@@ -13,7 +13,6 @@ const generoDAO = require('../../model/DAO/genero/genero.js')
 const inserirGenero = async function(genero, contentType){
     let customMessage = JSON.parse(JSON.stringify(configMenssages))
 
-//Wala Aqui
 
     try {
         if(String(contentType).toUpperCase() == 'APPLICATION/JSON'){

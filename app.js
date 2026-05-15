@@ -5,7 +5,9 @@
 const express = require("express")
 const cors = require("cors")
 const bodyParser = require('body-parser')
+
 const controllerFilme = require('./controller/filme/controller_filme.js')
+const controllerGenero = require('./controller/genero/controller_genero.js')
 // Import das controllers do projeto
 
 //Permitindo a utilização do JSON no body das requisições
@@ -89,7 +91,9 @@ app.delete('/v1/senai/locadora/filme/:id', async function(request, response){
 
 app.post('/v1/senai/locadora/genero', bodyParserJson,async function(request,response){
     let dados = request.body
+    let contentType = request.headers['content-type']
 
+    let result = await controllerGenero.inserirGenero(dados,contentType)
 })
 
 //Fazer o Start na API (aguardando as requisições)
