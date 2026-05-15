@@ -100,8 +100,6 @@ const atualizarFilme = async function(filme, id, contentType){
                         } else {
                             return customMessage.ERROR_INTERNAL_SERVER_MODEL // RETORNA 500 (MODEL)
                         }
-
-
                     } else { // fecha if sobre a validação
                         return validar // RETORNA 400 DA VALIDAÇÃO DOS CAMPOS DO BANCO DE DADOS!
                     }

@@ -47,14 +47,49 @@ const inserirGenero = async function(genero, contentType){
 }
 
 // Voltar para terminar pq vou realizar o buscar
-const atualizarGenero = async function(filme,id,contentType){
+const atualizarGenero = async function(genero,id,contentType){
     let customMessage = JSON.parse(JSON.stringify(configMenssages))
     try {
         if(String(contentType).toUpperCase() == 'APPLICATION/JSON'){
+            let resulBuscarGenero = await buscarGenero(id)
+            
+            if(resulBuscarGenero.status){
+                if(resulBuscarGenero){
+                    let validar = validarDados(genero)
 
+                    if(validar){
+                        genero.id = Number(id)
+
+                        let result = await generoDAO.updateGenero(await tratarDados(genero))
+
+                        if(result){
+                            customMessage.DEFAULT_MESSAGE.status = configMenssages.SUCCES_UPDATED_ITEM.status
+                            customMessage.DEFAULT_MESSAGE.status_code =customMessage.SUCCES_UPDATED_ITEM.status_code
+                            customMessage.DEFAULT_MESSAGE.message = customMessage.SUCCES_UPDATED_ITEM.message
+                            customMessage.DEFAULT_MESSAGE.response = genero
+
+                            return customMessage.DEFAULT_MESSAGE
+                        }
+                        else{
+                            return customMessage.ERROR_INTERNAL_SERVER_MODEL
+                        }
+                    }
+                    else{
+                        return validar
+                    }
+                }
+                else{
+                    return customMessage.ERROR_BAD_REQUEST
+                }
+            }
+            else{
+                return resulBuscarGenero
+            }
         }
+        else
+            return customMessage.ERROR_CONTENT_TYPE
     } catch (error) {
-        
+        return customMessage.ERROR_INTERNAL_SERVER_CONTROLLER   
     }
 }
 

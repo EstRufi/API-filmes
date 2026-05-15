@@ -69,7 +69,7 @@ app.put('/v1/senai/locadora/filme/:id', bodyParserJson, async function(request, 
 
     // Recebe o content-type da requisição para validar se é JSON.
     let contentType = request.headers['content-type']
-    console.log(request.headers)
+
     // Chama a função para atualizar o filme.
     let result = await controllerFilme.atualizarFilme(dados, id, contentType)
 
@@ -100,6 +100,16 @@ app.post('/v1/senai/locadora/genero', bodyParserJson,async function(request,resp
 app.get('/v1/senai/locadora/genero/:id', async function(request, response){
     let id = request.params.id
     let result = await controllerGenero.buscarGenero(id)
+
+    response.status(result.status_code)
+    response.json(result)
+})
+
+app.put('/v1/senai/locadora/genero/:id',bodyParserJson, async function(request,response){
+    let id = request.params.id
+    let dados = request.body 
+    let contentType = request.headers['content_type']
+    let result = await controllerGenero.atualizarGenero(dados,id,contentType)
 
     response.status(result.status_code)
     response.json(result)

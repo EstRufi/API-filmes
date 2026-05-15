@@ -10,8 +10,6 @@ const knex = require('knex')
 const knexDataBaseConfig = require('../../database_config/knexConfig.js')
 const knexConection = knex(knexDataBaseConfig.development)
 
-// começando o insert
-
 const insertGenero = async function(genero){
     try {
         let sql = `insert into tbl_genero(
@@ -32,6 +30,7 @@ const insertGenero = async function(genero){
     }  
 }
 
+// Está dando erro, Olhar em casa
 const updateGenero = async function(genero){
     try {
         let sql = ` update tbl_genero set
@@ -40,7 +39,7 @@ const updateGenero = async function(genero){
         let result = await knexConection.raw(sql)
 
         if(result)
-            return result[0].insertId // Ver se vai SE não for o erro tá aqui
+            return true
         else
             return false
     } catch (error) {
