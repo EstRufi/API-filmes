@@ -36,7 +36,6 @@ app.post('/v1/senai/locadora/filme',bodyParserJson, async function (request, res
     // Recebendo o tipo de dados da requisição para validar se é JSON
     let contentType = request.headers['content-type']
     
-    
     let result = await controllerFilme.inserirNovoFilme(dados, contentType)
     response.status(result.status_code)
     response.json(result)
@@ -94,6 +93,8 @@ app.post('/v1/senai/locadora/genero', bodyParserJson,async function(request,resp
     let contentType = request.headers['content-type']
 
     let result = await controllerGenero.inserirGenero(dados,contentType)
+    response.status(result.status_code)
+    response.json(result)
 })
 
 //Fazer o Start na API (aguardando as requisições)

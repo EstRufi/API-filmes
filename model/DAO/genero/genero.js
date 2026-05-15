@@ -14,7 +14,7 @@ const knexConection = knex(knexDataBaseConfig.development)
 
 const insertGenero = async function(genero){
     try {
-        let sql = ` insert into tbl_genero(
+        let sql = `insert into tbl_genero(
             nome
         )values(
             '${genero.nome}'
@@ -22,10 +22,8 @@ const insertGenero = async function(genero){
 
         let  result = await knexConection.raw(sql)
 
-        console.log(result)
-
         if(result)
-            return result[0].insertID
+            return result[0].insertId
         else
             return false
 

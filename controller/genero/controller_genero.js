@@ -18,9 +18,7 @@ const inserirGenero = async function(genero, contentType){
         if(String(contentType).toUpperCase() == 'APPLICATION/JSON'){
             let validar = await validarDados(genero)
             
-            if(validar)
-                return validar
-            else{
+            if(validar){
                 let result = await generoDAO.insertGenero(await tratarDados(genero))
 
                 if(result){
@@ -30,11 +28,16 @@ const inserirGenero = async function(genero, contentType){
                     customMessage.DEFAULT_MESSAGE.status_code = customMessage.SUCCES_CREATED_ITEM.status_code
                     customMessage.DEFAULT_MESSAGE.message = customMessage.SUCCES_CREATED_ITEM.message
                     customMessage.DEFAULT_MESSAGE.response = genero
+
+                    return customMessage.DEFAULT_MESSAGE
                 }
                 else{
                     return customMessage.ERROR_INTERNAL_SERVER_MODEL
                 }
             }
+            else
+                return validar
+
         }
         else{
             return customMessage.ERROR_CONTENT_TYPE
@@ -63,7 +66,7 @@ const excluirGenero = async function(id){
 const validarDados = async function(genero){
     let customMessage = JSON.parse(JSON.stringify(configMenssages))
 
-    if(genero.nome == undefined || genero.nome == null || genero.nome == '' || isNaN(genero.nome) || genero.nome >30){
+    if(genero.nome == undefined || genero.nome == null || genero.nome == '' || genero.nome >30){
         customMessage.ERROR_BAD_REQUEST.field = '[NOME] INVÁLIDO'
         return customMessage.ERROR_BAD_REQUEST
     }
