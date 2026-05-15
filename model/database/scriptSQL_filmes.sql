@@ -80,4 +80,11 @@ select * from tbl_filme order by id desc;
  )values(
  replace('drama',"'","")
  );
+ 
+ update tbl_genero set
+	nome = "Terror"
+    where id = 5;
+ 
+ select * from tbl_genero where id = 11;
+ 
   select * from tbl_genero order by id desc;

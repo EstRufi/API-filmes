@@ -97,6 +97,14 @@ app.post('/v1/senai/locadora/genero', bodyParserJson,async function(request,resp
     response.json(result)
 })
 
+app.get('/v1/senai/locadora/genero/:id', async function(request, response){
+    let id = request.params.id
+    let result = await controllerGenero.buscarGenero(id)
+
+    response.status(result.status_code)
+    response.json(result)
+})
+
 //Fazer o Start na API (aguardando as requisições)
 app.listen(8080, function(){
     console.log("API aguardando novas requisições . . . .")
