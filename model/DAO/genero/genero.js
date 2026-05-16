@@ -34,8 +34,8 @@ const insertGenero = async function(genero){
 const updateGenero = async function(genero){
     try {
         let sql = ` update tbl_genero set
-	        nome = ${genero.nome}
-            where id = ${genero.id};`
+	        nome = '${genero.nome}'
+            where id = '${genero.id}';`
         let result = await knexConection.raw(sql)
 
         if(result)
@@ -46,7 +46,7 @@ const updateGenero = async function(genero){
         return false
     }
 }
-
+updateGenero()
 const selectByIdFilme = async function (id) {
     try {
         let sql = ` select * from tbl_genero where id = ${id};`

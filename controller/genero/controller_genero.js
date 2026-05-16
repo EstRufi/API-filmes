@@ -50,6 +50,7 @@ const inserirGenero = async function(genero, contentType){
 const atualizarGenero = async function(genero,id,contentType){
     let customMessage = JSON.parse(JSON.stringify(configMenssages))
     try {
+
         if(String(contentType).toUpperCase() == 'APPLICATION/JSON'){
             let resulBuscarGenero = await buscarGenero(id)
             
@@ -61,7 +62,7 @@ const atualizarGenero = async function(genero,id,contentType){
                         genero.id = Number(id)
 
                         let result = await generoDAO.updateGenero(await tratarDados(genero))
-
+                        
                         if(result){
                             customMessage.DEFAULT_MESSAGE.status = configMenssages.SUCCES_UPDATED_ITEM.status
                             customMessage.DEFAULT_MESSAGE.status_code =customMessage.SUCCES_UPDATED_ITEM.status_code

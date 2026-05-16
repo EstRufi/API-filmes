@@ -1,6 +1,3 @@
-//  NÃO FUNCIONOU
-
-
 //Import das dependencias para criar a API
 const express = require("express")
 const cors = require("cors")
@@ -107,10 +104,10 @@ app.get('/v1/senai/locadora/genero/:id', async function(request, response){
 
 app.put('/v1/senai/locadora/genero/:id',bodyParserJson, async function(request,response){
     let id = request.params.id
-    let dados = request.body 
-    let contentType = request.headers['content_type']
+    let dados = request.body
+    let contentType = request.headers['content-type']
     let result = await controllerGenero.atualizarGenero(dados,id,contentType)
-
+    
     response.status(result.status_code)
     response.json(result)
 })
