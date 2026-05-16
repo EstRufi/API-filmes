@@ -96,6 +96,27 @@ const atualizarGenero = async function(genero,id,contentType){
 
 const listarGenero = async function(){
     let customMessage = JSON.parse(JSON.stringify(configMenssages))
+    try {
+            let result = await generoDAO.selectAllGenero()
+        
+        if(result){
+            if(result.length > 0){
+                customMessage.DEFAULT_MESSAGE.status = customMessage.SUCCES_RESPONSE.status
+                customMessage.DEFAULT_MESSAGE.status_code = customMessage.SUCCES_RESPONSE.status_code
+                customMessage.DEFAULT_MESSAGE.response.cout = result.length
+                customMessage.DEFAULT_MESSAGE.response.genero = result
+
+                return customMessage.DEFAULT_MESSAGE
+            }
+            else
+                return customMessage.ERROR_NOT_FOUND
+        }
+        else{
+            return customMessage.ERROR_INTERNAL_SERVER_MODEL
+        }
+    } catch (error) {
+        return customMessage.ERROR_INTERNAL_SERVER_CONTROLLER
+    }
 }
 
 const buscarGenero = async function(id){
@@ -107,7 +128,7 @@ const buscarGenero = async function(id){
             return customMessage.ERROR_BAD_REQUEST
         }
         else{
-            let result = await generoDAO.selectByIdFilme(id)
+            let result = await generoDAO.selectByIdGenero(id)
 
             if(result){
                 if(result.length >0){

@@ -30,7 +30,37 @@ const insertGenero = async function(genero){
     }  
 }
 
-// Está dando erro, Olhar em casa
+const selectByIdGenero = async function (id) {
+    try {
+        let sql = ` select * from tbl_genero where id = ${id};`
+
+        let result = await knexConection.raw(sql)
+
+        if(Array.isArray(result))
+            return result[0]
+        else
+            return false
+    } catch (error) {
+        return false
+    }
+}
+
+const selectAllGenero = async function () {
+    try {
+        let sql = 'select * from tbl_genero order by id desc;'
+
+        let result = await knexConection.raw(sql)
+    
+        if(Array.isArray(result)){
+            return result[0]
+        }
+        else
+            return false
+    } catch (error) {
+        return false
+    }
+}
+
 const updateGenero = async function(genero){
     try {
         let sql = ` update tbl_genero set
@@ -46,24 +76,12 @@ const updateGenero = async function(genero){
         return false
     }
 }
-updateGenero()
-const selectByIdFilme = async function (id) {
-    try {
-        let sql = ` select * from tbl_genero where id = ${id};`
 
-        let result = await knexConection.raw(sql)
 
-        if(Array.isArray(result))
-            return result[0]
-        else
-            return false
-    } catch (error) {
-        return false
-    }
-}
 
 module.exports = {
     insertGenero,
-    selectByIdFilme,
+    selectByIdGenero,
+    selectAllGenero,
     updateGenero
 }

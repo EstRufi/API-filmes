@@ -134,7 +134,7 @@ const listarFilme = async function(){
         if(result){
             //Validar para verificar se o conteúdo do ARRAy tem dados de
             //retorno ou se está vazio
-            if(result.length > 0){
+            if(result.length > 0){ 
                 customMessage.DEFAULT_MESSAGE.status = customMessage.SUCCES_RESPONSE.status
                 customMessage.DEFAULT_MESSAGE.status_code = customMessage.SUCCES_RESPONSE.status_code
                 customMessage.DEFAULT_MESSAGE.response.cout = result.length
