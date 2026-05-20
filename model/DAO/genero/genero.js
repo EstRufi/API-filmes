@@ -77,11 +77,28 @@ const updateGenero = async function(genero){
     }
 }
 
+const deleteGenero = async function (id) {
+    try {
+        let sql = `delete from tbl_genero where id=${id}`
+
+        let result = await knexConection.raw(sql)
+
+        if(result)
+            return true 
+        
+        else
+            return false
+
+    } catch (error) {
+        return false
+    }
+}
 
 
 module.exports = {
     insertGenero,
     selectByIdGenero,
     selectAllGenero,
-    updateGenero
+    updateGenero,
+    deleteGenero
 }

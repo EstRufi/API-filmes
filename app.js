@@ -119,6 +119,14 @@ app.put('/v1/senai/locadora/genero/:id',bodyParserJson, async function(request,r
     response.json(result)
 })
 
+app.delete('/v1/senai/locadora/genero/:id', async function (request, response) {
+    let id = request.params.id
+    let result = await controllerGenero.excluirGenero(id)
+
+    response.status(result.status_code)
+    response.json(result)
+})
+
 //Fazer o Start na API (aguardando as requisições)
 app.listen(8080, function(){
     console.log("API aguardando novas requisições . . . .")

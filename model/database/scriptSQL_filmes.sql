@@ -87,4 +87,6 @@ select * from tbl_filme order by id desc;
  
  select * from tbl_genero where id = 11;
  
+# delete from tbl_genero where id = 1;
+ 
   select * from tbl_genero order by id desc;
