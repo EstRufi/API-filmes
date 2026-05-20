@@ -5,6 +5,7 @@ const bodyParser = require('body-parser')
 
 const controllerFilme = require('./controller/filme/controller_filme.js')
 const controllerGenero = require('./controller/genero/controller_genero.js')
+const controller_Classificacao = require('./controller/classificacao/controller_classificacao.js')
 // Import das controllers do projeto
 
 //Permitindo a utilização do JSON no body das requisições
@@ -123,6 +124,17 @@ app.delete('/v1/senai/locadora/genero/:id', async function (request, response) {
     let id = request.params.id
     let result = await controllerGenero.excluirGenero(id)
 
+    response.status(result.status_code)
+    response.json(result)
+})
+
+// Classificacao
+
+app.post('/v1/senai/locadora/classificacao', bodyParserJson, async function (request,response){
+    let dados = request.body
+    let content_type = request.headers['content-type']
+    let result =  await controller_Classificacao.inserirClassificacao(dados,content_type)
+    
     response.status(result.status_code)
     response.json(result)
 })

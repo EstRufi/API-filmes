@@ -50,7 +50,7 @@ insert into tbl_filme (
     if('',null,2)
 );
 
-select * from tbl_filme order by id desc;
+
 
 	# Aqui vc seleciona qual id vc quer por meio do id
 # select * from tbl_filme where id = 26;
@@ -81,12 +81,18 @@ select * from tbl_filme order by id desc;
  replace('drama',"'","")
  );
  
- update tbl_genero set
-	nome = "Terror"
-    where id = 5;
- 
- select * from tbl_genero where id = 11;
- 
 # delete from tbl_genero where id = 1;
  
-  select * from tbl_genero order by id desc;
+	# CLassificacao
+create table tbl_classificacao(
+	id int not null auto_increment primary key,
+    classificacao_filme varchar(15) not null
+);
+
+insert into tbl_classificacao(
+	classificacao_filme
+)value(
+	replace('+18',"'","")
+);
+
+select * from tbl_classificacao order by id desc;
