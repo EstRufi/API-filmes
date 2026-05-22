@@ -1,6 +1,6 @@
  /**
  * Objetivo: Arquivo responsável pela validação, tratamento, manipulação de dados
- *              para realizar o CRUD de gênero
+ *              para realizar o CRUD de Filme Generp
  * Data: 22/05/2026
  * Autor: Estela
  * Versão: 1.0.5.26
@@ -8,25 +8,24 @@
 
  const configMenssages = require('../modulo/configMenssages.js')
 
-const generoDAO = require('../../model/DAO/genero/genero.js')
+const filmeGeneroDAO = require('../../model/DAO/filme_genero/filme_genero.js')
 
-const inserirGenero = async function(genero, contentType){
+const inserirFilmeGenero = async function(filmeGenero){
     let customMessage = JSON.parse(JSON.stringify(configMenssages))
 
     try {
-        if(String(contentType).toUpperCase() == 'APPLICATION/JSON'){
-            let validar = await validarDados(genero)
+            let validar = await validarDados(filmeGenero)
             
             if(validar){
-                let result = await generoDAO.insertGenero(await tratarDados(genero))
+                let result = await filmeGeneroDAO.insertFilmeGenero(filmeGenero)
 
                 if(result){
-                    genero.id = result
+                    filmeGenero.id = result
 
                     customMessage.DEFAULT_MESSAGE.status = customMessage.SUCCES_CREATED_ITEM.status
                     customMessage.DEFAULT_MESSAGE.status_code = customMessage.SUCCES_CREATED_ITEM.status_code
                     customMessage.DEFAULT_MESSAGE.message = customMessage.SUCCES_CREATED_ITEM.message
-                    customMessage.DEFAULT_MESSAGE.response = genero
+                    customMessage.DEFAULT_MESSAGE.response = filmeGenero
 
                     return customMessage.DEFAULT_MESSAGE
                 }
@@ -37,74 +36,67 @@ const inserirGenero = async function(genero, contentType){
             else
                 return validar
 
-        }
-        else{
-            return customMessage.ERROR_CONTENT_TYPE
-        }
     } catch (error) {
         return customMessage.ERROR_INTERNAL_SERVER_CONTROLLER
     }
 }
 
-// Voltar para terminar pq vou realizar o buscar
-const atualizarGenero = async function(genero,id,contentType){
+
+const atualizarFilmeGenero = async function(filmeGenero,id){
     let customMessage = JSON.parse(JSON.stringify(configMenssages))
     try {
 
-        if(String(contentType).toUpperCase() == 'APPLICATION/JSON'){
-            let resulBuscarGenero = await buscarGenero(id)
+        
+            let resulBuscarId = await buscarFilmeGenero(id)
             
-            if(resulBuscarGenero.status){
-                if(resulBuscarGenero){
-                    let validar = validarDados(genero)
+            if(resulBuscarId.status){
+                if(resulBuscarId){
+                    let validar = validarDados(filmeGenero)
 
-                    if(validar){
-                        genero.id = Number(id)
+                if(validar){
+                    filmeGenero.id = Number(id)
 
-                        let result = await generoDAO.updateGenero(await tratarDados(genero))
+                    let result = await filmeGeneroDAO.updateFilmeGenero(filmeGenero)
                         
-                        if(result){
-                            customMessage.DEFAULT_MESSAGE.status = configMenssages.SUCCES_UPDATED_ITEM.status
-                            customMessage.DEFAULT_MESSAGE.status_code =customMessage.SUCCES_UPDATED_ITEM.status_code
-                            customMessage.DEFAULT_MESSAGE.message = customMessage.SUCCES_UPDATED_ITEM.message
-                            customMessage.DEFAULT_MESSAGE.response = genero
+                    if(result){
+                        customMessage.DEFAULT_MESSAGE.status = configMenssages.SUCCES_UPDATED_ITEM.status
+                        customMessage.DEFAULT_MESSAGE.status_code =customMessage.SUCCES_UPDATED_ITEM.status_code
+                        customMessage.DEFAULT_MESSAGE.message = customMessage.SUCCES_UPDATED_ITEM.message
+                        customMessage.DEFAULT_MESSAGE.response = filmeGenero
 
-                            return customMessage.DEFAULT_MESSAGE
-                        }
-                        else{
-                            return customMessage.ERROR_INTERNAL_SERVER_MODEL
-                        }
+                        return customMessage.DEFAULT_MESSAGE
                     }
                     else{
-                        return validar
+                        return customMessage.ERROR_INTERNAL_SERVER_MODEL
                     }
                 }
                 else{
-                    return customMessage.ERROR_BAD_REQUEST
+                    return validar
                 }
             }
             else{
-                return resulBuscarGenero
+                return customMessage.ERROR_BAD_REQUEST
             }
         }
-        else
-            return customMessage.ERROR_CONTENT_TYPE
+        else{
+            return resulBuscarGenero
+        }
     } catch (error) {
         return customMessage.ERROR_INTERNAL_SERVER_CONTROLLER   
     }
 }
 
-const listarGenero = async function(){
+const listarFilmeGenero = async function(){
     let customMessage = JSON.parse(JSON.stringify(configMenssages))
     try {
-            let result = await generoDAO.selectAllGenero()
+            let result = await filmeGeneroDAO.selectAllFilmeGenero()
         
         if(result){
             if(result.length > 0){
                 customMessage.DEFAULT_MESSAGE.status = customMessage.SUCCES_RESPONSE.status
                 customMessage.DEFAULT_MESSAGE.status_code = customMessage.SUCCES_RESPONSE.status_code
                 customMessage.DEFAULT_MESSAGE.response.cout = result.length
-                customMessage.DEFAULT_MESSAGE.response.genero = result
+                customMessage.DEFAULT_MESSAGE.response.filme_Genero = result
 
                 return customMessage.DEFAULT_MESSAGE
             }
@@ -119,7 +111,7 @@ const listarGenero = async function(){
     }
 }
 
-const buscarGenero = async function(id){
+const buscarFilmeGenero = async function(id){
     let customMessage = JSON.parse(JSON.stringify(configMenssages))
 
     try {
@@ -128,13 +120,13 @@ const buscarGenero = async function(id){
             return customMessage.ERROR_BAD_REQUEST
         }
         else{
-            let result = await generoDAO.selectByIdGenero(id)
+            let result = await filmeGeneroDAO.selectByIdFilmeGenero(id)
 
             if(result){
                 if(result.length >0){
                     customMessage.DEFAULT_MESSAGE.status = customMessage.SUCCES_RESPONSE.status
                     customMessage.DEFAULT_MESSAGE.status_code = customMessage.SUCCES_RESPONSE.status_code
-                    customMessage.DEFAULT_MESSAGE.response.genero = result
+                    customMessage.DEFAULT_MESSAGE.response.filme_Genero = result
     
                     return customMessage.DEFAULT_MESSAGE
                 }
@@ -149,13 +141,13 @@ const buscarGenero = async function(id){
     }
 }
 
-const excluirGenero = async function(id){
+const excluirFilmeGenero = async function(id){
     let customMessage = JSON.parse(JSON.stringify(configMenssages))
 
     try {
-        let resulBuscarGenero = await buscarGenero(id)
-        if(resulBuscarGenero.status){
-            let result = await generoDAO.deleteGenero(id)
+        let resulBuscarFilmeGenero = await buscarFilmeGenero(id)
+        if(resulBuscarFilmeGenero.status){
+            let result = await filmeGeneroDAO.deleteFilmeGenero(id)
     
             if(result){
                 return customMessage.SUCCES_DELETED_ITEM
@@ -170,28 +162,90 @@ const excluirGenero = async function(id){
     }
 }
 
-const validarDados = async function(genero){
+const validarDados = async function(filmeGenero){
     let customMessage = JSON.parse(JSON.stringify(configMenssages))
 
-    if(genero.nome == undefined || genero.nome == null || genero.nome == '' || genero.nome >30){
-        customMessage.ERROR_BAD_REQUEST.field = '[NOME] INVÁLIDO'
+    if(filmeGenero.id_filme == undefined || filmeGenero.id_filme == null || filmeGenero.id_filme == '' || filmeGenero.id_filme <=0 || isNaN(filmeGenero.id_filme)){
+        customMessage.ERROR_BAD_REQUEST.field = '[ID_FILME] INVÁLIDO'
+        return customMessage.ERROR_BAD_REQUEST
+    }
+    else if(filmeGenero.id_genero == undefined || filmeGenero.id_genero == null || filmeGenero.id_genero == '' || filmeGenero.id_genero <=0 || isNaN(filmeGenero.id_genero)){
+        customMessage.ERROR_BAD_REQUEST.field = '[ID_GENERO] INVÁLIDO'
         return customMessage.ERROR_BAD_REQUEST
     }
     else
         return true
 }
 
-const tratarDados = async function(genero){
-    genero.nome = genero.nome.replaceAll("'","")
+// Funções da tabela intermediaria
 
-    return genero
+const buscarGeneroIdFilme = async function(idFilme){
+    let customMessage = JSON.parse(JSON.stringify(configMenssages))
+
+    try {
+        if(idFilme == undefined || isNaN(idFilme) || idFilme == null || isNaN(idFilme)|| idFilme <=0){
+            customMessage.ERROR_BAD_REQUEST.field = '[ID_FILME] INVÁLIDO'
+            return customMessage.ERROR_BAD_REQUEST
+        }
+        else{
+            // se der errado é essa linha a baixo
+            let result = await filmeGeneroDAO.selectGeneroByIdFilme(idFilme)
+
+            if(result){
+                if(result.length >0){
+                    customMessage.DEFAULT_MESSAGE.status = customMessage.SUCCES_RESPONSE.status
+                    customMessage.DEFAULT_MESSAGE.status_code = customMessage.SUCCES_RESPONSE.status_code
+                    customMessage.DEFAULT_MESSAGE.response.filme_Genero = result
+    
+                    return customMessage.DEFAULT_MESSAGE
+                }
+                else
+                    return customMessage.ERROR_NOT_FOUND
+            }
+            else
+                return customMessage.ERROR_INTERNAL_SERVER_MODEL
+        }
+    } catch (error) {
+        return customMessage.ERROR_INTERNAL_SERVER_CONTROLLER
+    }
+}
+
+const buscarFilmeIdGenero = async function(idGenero){
+    let customMessage = JSON.parse(JSON.stringify(configMenssages))
+
+    try {
+        if(idGenero == undefined || isNaN(idGenero) || idGenero == null || isNaN(idGenero)|| idGenero <=0){
+            customMessage.ERROR_BAD_REQUEST.field = '[ID_GENERO] INVÁLIDO'
+            return customMessage.ERROR_BAD_REQUEST
+        }
+        else{
+            let result = await filmeGeneroDAO.selectFilmesByIdGenero(idGenero)
+
+            if(result){
+                if(result.length >0){
+                    customMessage.DEFAULT_MESSAGE.status = customMessage.SUCCES_RESPONSE.status
+                    customMessage.DEFAULT_MESSAGE.status_code = customMessage.SUCCES_RESPONSE.status_code
+                    customMessage.DEFAULT_MESSAGE.response.filme_Genero = result
+    
+                    return customMessage.DEFAULT_MESSAGE
+                }
+                else
+                    return customMessage.ERROR_NOT_FOUND
+            }
+            else
+                return customMessage.ERROR_INTERNAL_SERVER_MODEL
+        }
+    } catch (error) {
+        return customMessage.ERROR_INTERNAL_SERVER_CONTROLLER
+    }
 }
 
 module.exports = {
-    inserirGenero,
-    atualizarGenero,
-    listarGenero,
-    buscarGenero,
-    excluirGenero,
-    tratarDados
+    inserirFilmeGenero,
+    atualizarFilmeGenero,
+    listarFilmeGenero,
+    buscarFilmeGenero,
+    buscarGeneroIdFilme,
+    buscarFilmeIdGenero,
+    excluirFilmeGenero
 }
