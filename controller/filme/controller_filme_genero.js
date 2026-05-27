@@ -195,7 +195,7 @@ const buscarGeneroIdFilme = async function(idFilme){
                 if(result.length >0){
                     customMessage.DEFAULT_MESSAGE.status = customMessage.SUCCES_RESPONSE.status
                     customMessage.DEFAULT_MESSAGE.status_code = customMessage.SUCCES_RESPONSE.status_code
-                    customMessage.DEFAULT_MESSAGE.response.filme_Genero = result
+                    customMessage.DEFAULT_MESSAGE.response.filme_genero = result
     
                     return customMessage.DEFAULT_MESSAGE
                 }
@@ -225,7 +225,7 @@ const buscarFilmeIdGenero = async function(idGenero){
                 if(result.length >0){
                     customMessage.DEFAULT_MESSAGE.status = customMessage.SUCCES_RESPONSE.status
                     customMessage.DEFAULT_MESSAGE.status_code = customMessage.SUCCES_RESPONSE.status_code
-                    customMessage.DEFAULT_MESSAGE.response.filme_Genero = result
+                    customMessage.DEFAULT_MESSAGE.response.filme_genero = result
     
                     return customMessage.DEFAULT_MESSAGE
                 }

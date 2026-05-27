@@ -13,6 +13,7 @@ const configMenssages = require('../modulo/configMenssages.js')
 const filmeDAO = require('../../model/DAO/filme/filme.js')
 
 // Imports controllers
+const controllerClassificacao = require('../classificacao/controller_classificacao.js')
 
 const controllerFilmeGenero = require ('./controller_filme_genero.js')
 
@@ -45,14 +46,19 @@ const inserirNovoFilme = async function(filme, contentType){
                     //Manipulação de dados para inserir os Generos relacionados ao Filme
 
                     // Percorre o array de generos que chegará na requisição pelo objeto filme
-                    for(itemFilme of filme.genero){
+                    for(itemGenero of filme.genero){
                         let FilmeGenero = {
                             "id_filme": filme.id,
-                            "id_genero": itemFilme.id
+                            "id_genero": itemGenero.id
                         }
 
                         let resultFilmeGenero = await controllerFilmeGenero.inserirFilmeGenero(FilmeGenero)
-                        console.log(resultFilmeGenero)
+
+                        //validação para ferificar se todos os itens de relacionamento foram inseridos
+                        if(!resultFilmeGenero.status){
+                            return customMessage.SUCCES_CREATED_ITEM_WARNING
+                        }
+                        
                     }
 
                     customMessage.DEFAULT_MESSAGE.status =  customMessage.SUCCES_CREATED_ITEM.status
@@ -152,6 +158,7 @@ const listarFilme = async function(){
             //Validar para verificar se o conteúdo do ARRAy tem dados de
             //retorno ou se está vazio
             if(result.length > 0){ 
+
                 customMessage.DEFAULT_MESSAGE.status = customMessage.SUCCES_RESPONSE.status
                 customMessage.DEFAULT_MESSAGE.status_code = customMessage.SUCCES_RESPONSE.status_code
                 customMessage.DEFAULT_MESSAGE.response.cout = result.length
@@ -190,6 +197,10 @@ const buscarFilme = async function(id){
 
                 // Validação para verificar se o DAO tem  algum dado no Array
                 if(result.length >0){
+
+
+
+
                     customMessage.DEFAULT_MESSAGE.status = customMessage.SUCCES_RESPONSE.status
                     customMessage.DEFAULT_MESSAGE.status_code = customMessage.SUCCES_RESPONSE.status_code
                     customMessage.DEFAULT_MESSAGE.response.filme = result
@@ -228,8 +239,9 @@ const excluirFilme = async function(id){
             if(result){
                 return customMessage.SUCCES_DELETED_ITEM // 200 ou 204 caso queira mudar
             }
-            else
+            else{
                 return customMessage.ERROR_INTERNAL_SERVER_MODEL // 500
+            }
         }
         else{
             return resultBuscarFilme // 400 e 404

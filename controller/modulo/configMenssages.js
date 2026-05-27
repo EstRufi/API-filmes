@@ -77,6 +77,12 @@ const SUCCES_CREATED_ITEM = {
     message: 'Item inserido com sucesso!'
 }
 
+const SUCCES_CREATED_ITEM_WARNING = {
+    status: true,
+    status_code: 201,
+    message: 'Item inserido com sucesso,porém alguns dados tiveram problema no cadastro [DADOS DE RELACIONAMENTO]'
+}
+
 module.exports = {
     DEFAULT_MESSAGE,
     ERROR_BAD_REQUEST,
@@ -85,8 +91,8 @@ module.exports = {
     ERROR_CONTENT_TYPE,
     ERROR_NOT_FOUND,
     SUCCES_CREATED_ITEM,
+    SUCCES_CREATED_ITEM_WARNING,
     SUCCES_RESPONSE,
     SUCCES_DELETED_ITEM,
     SUCCES_UPDATED_ITEM
-    
 }

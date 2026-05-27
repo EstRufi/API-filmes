@@ -101,10 +101,10 @@ const deleteFilmeGenero = async function (id) {
 // Função para retornar os dados do genero filtrando pe id filme
 const selectGeneroByIdFilme = async function (idFilme) {
     try {
-        let sql = ` select tbl_genro.*
+        let sql = ` select tbl_genero.*
                 from tbl_filme
                     inner join tbl_filme_genero
-                        on tbl_filme.id = tbl_genero.id_filme
+                        on tbl_filme.id = tbl_filme_genero.id_filme
                     inner join tbl_genero
                         on tbl_genero.id = tbl_filme_genero.id_genero
                 where tbl_filme.id = ${idFilme};`
