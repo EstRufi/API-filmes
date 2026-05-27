@@ -112,6 +112,23 @@ const atualizarFilme = async function(filme, id, contentType){
                         let result = await filmeDAO.updateFilme(await tratarDados(filme))
                         
                         if (result) {
+                            let resultDeleteGeneros = await controllerFilmeGenero.excluirGenerosIdFilme(filme.id)
+                            if(resultDeleteGeneros.status){
+                                for(itemGenero of filme.genero){
+                                    let FilmeGenero = {
+                                        "id_filme": filme.id,
+                                        "id_genero": itemGenero.id
+                                    }
+            
+                                    let resultFilmeGenero = await controllerFilmeGenero.inserirFilmeGenero(FilmeGenero)
+            
+                                    //validação para ferificar se todos os itens de relacionamento foram inseridos
+                                    if(!resultFilmeGenero.status){
+                                        return customMessage.SUCCES_CREATED_ITEM_WARNING
+                                    }
+                                    
+                                }
+                            }
 
                             customMessage.DEFAULT_MESSAGE.status = customMessage.SUCCES_UPDATED_ITEM.status
                             customMessage.DEFAULT_MESSAGE.status_code = customMessage.SUCCES_UPDATED_ITEM.status_code
@@ -159,6 +176,32 @@ const listarFilme = async function(){
             //retorno ou se está vazio
             if(result.length > 0){ 
 
+                for (filme of result) {
+                    // fazer classificacao
+
+                    // //Buscando a classificacao que tem em cada filme.
+                    // //Busca na controller da classificacao o ID referente a FK da classificacao. (Explicação do professor)
+                    // let resultClassificacao = await controllerClassificacao.buscarClassificacao(filme.id_classificacao)
+
+                    // if (resultClassificacao.status) {
+                    //     //Entrando dentro da área que contém a classificação com o id e o nome dela. (Minha explicação)
+                    //     //Adicionar um atributo classificação no JSON do filme e colocar o resultado com os dados da classificação. (Explicação do professor)
+                    //     filme.classificacao = resultClassificacao.response.classificacao
+
+                    //     //Não é necessario deixar dois IDs no projeto, pois sem ele iria ter o id_classificacao e também o "classificacao" aonde iria conter o id também. (Minha explicação)
+                    //     //Apaga o id_classificacao do JSON de filme. (Explicação do professor)
+                    //     delete filme.id_classificacao
+
+                    // Manipulação de dados para retorna os Generos relacionados ao filmes
+
+                    let resultGeneros = await controllerFilmeGenero.buscarGeneroIdFilme(filme.id)
+                    if(resultGeneros.status){                   // observar o id que está usando
+                        filme.genero = resultGeneros.response.filme_genero
+                    }
+                    else
+                        return resultGeneros
+                    
+                }
                 customMessage.DEFAULT_MESSAGE.status = customMessage.SUCCES_RESPONSE.status
                 customMessage.DEFAULT_MESSAGE.status_code = customMessage.SUCCES_RESPONSE.status_code
                 customMessage.DEFAULT_MESSAGE.response.cout = result.length
@@ -198,7 +241,33 @@ const buscarFilme = async function(id){
                 // Validação para verificar se o DAO tem  algum dado no Array
                 if(result.length >0){
 
-
+                    for (filme of result) {
+                        // fazer classificacao
+    
+                        // //Buscando a classificacao que tem em cada filme.
+                        // //Busca na controller da classificacao o ID referente a FK da classificacao. (Explicação do professor)
+                        // let resultClassificacao = await controllerClassificacao.buscarClassificacao(filme.id_classificacao)
+    
+                        // if (resultClassificacao.status) {
+                        //     //Entrando dentro da área que contém a classificação com o id e o nome dela. (Minha explicação)
+                        //     //Adicionar um atributo classificação no JSON do filme e colocar o resultado com os dados da classificação. (Explicação do professor)
+                        //     filme.classificacao = resultClassificacao.response.classificacao
+    
+                        //     //Não é necessario deixar dois IDs no projeto, pois sem ele iria ter o id_classificacao e também o "classificacao" aonde iria conter o id também. (Minha explicação)
+                        //     //Apaga o id_classificacao do JSON de filme. (Explicação do professor)
+                        //     delete filme.id_classificacao
+    
+                        // Manipulação de dados para retorna os Generos relacionados ao filmes
+    
+                        let resultGeneros = await controllerFilmeGenero.buscarGeneroIdFilme(filme.id)
+                        if(resultGeneros.status){                   // observar o id que está usando
+                            filme.genero = resultGeneros.response.filme_genero
+    
+                        }
+                        else
+                            return resultGeneros
+                        
+                    }
 
 
                     customMessage.DEFAULT_MESSAGE.status = customMessage.SUCCES_RESPONSE.status
@@ -237,11 +306,11 @@ const excluirFilme = async function(id){
             let result = await filmeDAO.deleteFilme(id)
 
             if(result){
+
                 return customMessage.SUCCES_DELETED_ITEM // 200 ou 204 caso queira mudar
             }
-            else{
+            else
                 return customMessage.ERROR_INTERNAL_SERVER_MODEL // 500
-            }
         }
         else{
             return resultBuscarFilme // 400 e 404
