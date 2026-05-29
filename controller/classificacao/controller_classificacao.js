@@ -1,7 +1,6 @@
 const configMenssages = require('../modulo/configMenssages')
 
 const classificacaoDAO = require('../../model/DAO/classificacao/classificacao.js')
-const { response } = require('express')
 
 const inserirClassificacao = async function(classificacao, contentType){
 
@@ -78,13 +77,10 @@ const validarDados = async function(classificacao){
 
 const tratarDados = async function(classificacao){
     console.log(`chegou na controller, ultimo result: ${classificacao}`);
-    
-    //verificar se está correto este bloco
 
     classificacao.classificacao_filme = classificacao.classificacao_filme.replaceAll("'","")
 
     return classificacao
-
 }
 
 module.exports = {

@@ -117,7 +117,10 @@ insert into tbl_classificacao(
         );
 
 
+
+
 select * from tbl_classificacao order by id desc;
+
 
 select * from tbl_filme order by id desc;
 
