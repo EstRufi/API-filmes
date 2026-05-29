@@ -3,6 +3,8 @@ const knexDataBaseConfig = require('../../database_config/knexConfig.js')
 const knexConection = knex(knexDataBaseConfig.development)
 
 const insertClassificacao = async function(classificacao){
+    // console.log(`chegou: ${classificacao}`);
+    
    try {
         let sql = `insert into tbl_classificacao(
 	        classificacao_filme
@@ -10,10 +12,26 @@ const insertClassificacao = async function(classificacao){
 	        '${classificacao.classificacao_filme}'
         );`
 
-        let result = knexConection.raw(sql)
-
+        let result = await knexConection.raw(sql)
         if(result)
-            return result[0].insetId
+            return result[0].insertId
+        
+        else
+            return false
+
+    } catch (error) {
+        return false
+    }
+}
+
+const selectAllClassificacao = async function(){
+    try {
+        let sql = `select * from tbl_classificacao order by id desc;`
+
+        let result = await knexConection.raw(sql)
+    
+        if(Array.isArray(result))
+            return result[0]
         else
             return false
     } catch (error) {
@@ -22,5 +40,6 @@ const insertClassificacao = async function(classificacao){
 }
 
 module.exports ={
-    insertClassificacao
+    insertClassificacao,
+    selectAllClassificacao
 }

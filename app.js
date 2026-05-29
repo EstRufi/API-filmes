@@ -139,6 +139,13 @@ app.post('/v1/senai/locadora/classificacao', bodyParserJson, async function (req
     response.json(result)
 })
 
+app.get('/v1/senai/locadora/classificacao', async function (request,response) {
+    let result = await controller_Classificacao.listarClassificacao()
+
+    response.status(result.status_code)
+    response.json(result)
+})
+
 //Fazer o Start na API (aguardando as requisições)
 app.listen(8080, function(){
     console.log("API aguardando novas requisições . . . .")

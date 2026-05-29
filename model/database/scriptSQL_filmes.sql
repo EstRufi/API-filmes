@@ -110,4 +110,24 @@ insert into tbl_classificacao(
 	replace('+18',"'","")
 );
 
+insert into tbl_classificacao(
+	        classificacao_filme
+        )value(
+	        '+16'
+        );
+
+
 select * from tbl_classificacao order by id desc;
+
+select * from tbl_filme order by id desc;
+
+delete from tbl_filme;
+delete from tbl_filme_genero;
+
+ select tbl_genero.*
+                from tbl_filme
+                    inner join tbl_filme_genero
+                        on tbl_filme.id = tbl_filme_genero.id_filme
+                    inner join tbl_genero
+                        on tbl_genero.id = tbl_filme_genero.id_genero
+                where tbl_filme.id = 62 ;
