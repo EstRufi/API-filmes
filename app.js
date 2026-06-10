@@ -4,7 +4,7 @@ const cors = require("cors")
 const bodyParser = require('body-parser')
 
 const controllerFilme = require('./controller/filme/controller_filme.js')
-const controllerGenero = require('./controller/genero/controller_genero.js')
+
 const controller_Classificacao = require('./controller/classificacao/controller_classificacao.js')
 // Import das controllers do projeto
 
@@ -85,48 +85,9 @@ app.delete('/v1/senai/locadora/filme/:id', async function(request, response){
 })
 
 // Genero
-
-app.post('/v1/senai/locadora/genero', bodyParserJson,async function(request,response){
-    let dados = request.body
-    let contentType = request.headers['content-type']
-
-    let result = await controllerGenero.inserirGenero(dados,contentType)
-    response.status(result.status_code)
-    response.json(result)
-})
-
-app.get('/v1/senai/locadora/genero', async function(request, response){
-    let result = await controllerGenero.listarGenero()
-
-    response.status(result.status_code)
-    response.json(result)
-})
-
-app.get('/v1/senai/locadora/genero/:id', async function(request, response){
-    let id = request.params.id
-    let result = await controllerGenero.buscarGenero(id)
-
-    response.status(result.status_code)
-    response.json(result)
-})
-
-app.put('/v1/senai/locadora/genero/:id',bodyParserJson, async function(request,response){
-    let id = request.params.id
-    let dados = request.body
-    let contentType = request.headers['content-type']
-    let result = await controllerGenero.atualizarGenero(dados,id,contentType)
-
-    response.status(result.status_code)
-    response.json(result)
-})
-
-app.delete('/v1/senai/locadora/genero/:id', async function (request, response) {
-    let id = request.params.id
-    let result = await controllerGenero.excluirGenero(id)
-
-    response.status(result.status_code)
-    response.json(result)
-})
+// Import do aquivo de rotas do GENERO
+const generoRouter = require('./routes/genero.router.js')
+app.use('/v1/senai/locadora/genero', cors(), generoRouter)
 
 // Classificacao
 
