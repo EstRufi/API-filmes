@@ -1,0 +1,25 @@
+const express = require('express')
+const bodyParser = require('body-parser')
+
+const bodyParserJson = bodyParser.json()
+const router = express.Router()
+
+const controllerClassificacao = require('../controller/classificacao/controller_classificacao.js')
+
+router.post('/', bodyParserJson,async function(request,response){
+    let dados = request.body
+    let content_type = request.headers['content-type']
+    let result =  await controllerClassificacao.inserirClassificacao(dados,content_type)
+    
+    response.status(result.status_code)
+    response.json(result)
+})
+
+router.get('/',async function (request, response){
+    let result = await controllerClassificacao.listarClassificacao()
+
+    response.status(result.status_code)
+    response.json(result)
+})
+
+module.exports = router

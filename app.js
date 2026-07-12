@@ -5,7 +5,6 @@ const bodyParser = require('body-parser')
 
 const controllerFilme = require('./controller/filme/controller_filme.js')
 
-const controller_Classificacao = require('./controller/classificacao/controller_classificacao.js')
 // Import das controllers do projeto
 
 //Permitindo a utilização do JSON no body das requisições
@@ -90,22 +89,8 @@ const generoRouter = require('./routes/genero.router.js')
 app.use('/v1/senai/locadora/genero', cors(), generoRouter)
 
 // Classificacao
-
-app.post('/v1/senai/locadora/classificacao', bodyParserJson, async function (request,response){
-    let dados = request.body
-    let content_type = request.headers['content-type']
-    let result =  await controller_Classificacao.inserirClassificacao(dados,content_type)
-    
-    response.status(result.status_code)
-    response.json(result)
-})
-
-app.get('/v1/senai/locadora/classificacao', async function (request,response) {
-    let result = await controller_Classificacao.listarClassificacao()
-
-    response.status(result.status_code)
-    response.json(result)
-})
+const classificacaoRouter = require('./routes/classificacao.router.js')
+app.use('/v1/senai/locadora/classificacao',cors(), classificacaoRouter)
 
 //Fazer o Start na API (aguardando as requisições)
 app.listen(8080, function(){

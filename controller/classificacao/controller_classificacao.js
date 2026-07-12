@@ -76,8 +76,6 @@ const validarDados = async function(classificacao){
 }
 
 const tratarDados = async function(classificacao){
-    console.log(`chegou na controller, ultimo result: ${classificacao}`);
-
     classificacao.classificacao_filme = classificacao.classificacao_filme.replaceAll("'","")
 
     return classificacao
