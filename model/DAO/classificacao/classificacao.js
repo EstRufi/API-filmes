@@ -1,5 +1,6 @@
 const knex = require('knex')
 const knexDataBaseConfig = require('../../database_config/knexConfig.js')
+const { deleteGenero } = require('../genero/genero.js')
 
 const knexConection = knex(knexDataBaseConfig.development)
 
@@ -73,9 +74,26 @@ const updateClassificacao = async function(classificacao){
     }
 }
 
+const deleteClassificacao = async function(id){
+    try {
+        let sql = `delete from tbl_classificacao where id = ${id}`
+
+        let result = await knexConection.raw(sql)
+
+        if(result)
+            return true
+        else
+            return false
+
+    } catch (error) {
+        return false
+    }
+}
+
 module.exports ={
     insertClassificacao,
     selectByIdClassificacao,
     selectAllClassificacao,
-    updateClassificacao
+    updateClassificacao,
+    deleteClassificacao
 }

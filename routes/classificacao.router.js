@@ -40,4 +40,12 @@ router.put('/:id',bodyParserJson, async function (request,response){
     response.json(result)
 })
 
+router.delete('/:id',async function(request, response){
+    let id = request.params.id
+    let result = await controllerClassificacao.deletarClassificacao(id)
+
+    response.status(result.status_code)
+    response.json(result)
+})
+
 module.exports = router

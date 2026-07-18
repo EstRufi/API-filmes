@@ -1,6 +1,7 @@
 const configMenssages = require('../modulo/configMenssages')
 
 const classificacaoDAO = require('../../model/DAO/classificacao/classificacao.js')
+const { excluirGenero } = require('../genero/controller_genero.js')
 
 const inserirClassificacao = async function(classificacao, contentType){
 
@@ -136,6 +137,28 @@ const atualizarClassificacao = async function (classificacao,id,contentType) {
         return customMessage.ERROR_INTERNAL_SERVER_CONTROLLER
     }
 }
+
+const deletarClassificacao = async function (id){
+    let customMessage = JSON.parse(JSON.stringify(configMenssages))
+
+    try {
+        let resultBuscarClassificacao = await buscarClassificacao(id)
+        if(resultBuscarClassificacao.status){
+            let result = await classificacaoDAO.deleteClassificacao(id)
+
+            if(result){
+                return customMessage.SUCCES_DELETED_ITEM
+            }
+            else
+                return customMessage.ERROR_INTERNAL_SERVER_MODEL
+        }
+        else
+            return resultBuscarClassificacao
+    } catch (error) {
+        return customMessage.ERROR_INTERNAL_SERVER_CONTROLLER
+    }
+}
+
 const validarDados = async function(classificacao){
     let customMessage = JSON.parse(JSON.stringify(configMenssages))    
     
@@ -157,5 +180,6 @@ module.exports = {
     inserirClassificacao,
     listarClassificacao,
     buscarClassificacao,
-    atualizarClassificacao
+    atualizarClassificacao,
+    deletarClassificacao
 }
