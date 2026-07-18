@@ -56,8 +56,26 @@ const selectAllClassificacao = async function(){
     }
 }
 
+const updateClassificacao = async function(classificacao){
+    try {
+        let sql = `update tbl_classificacao set
+            classificacao_filme = '${classificacao.classificacao_filme}'
+            where id = '${classificacao.id}';`
+
+        let result = await knexConection.raw(sql)
+
+        if(result)
+            return true
+        else
+            return false
+    } catch (error) {
+        return false
+    }
+}
+
 module.exports ={
     insertClassificacao,
     selectByIdClassificacao,
-    selectAllClassificacao
+    selectAllClassificacao,
+    updateClassificacao
 }
