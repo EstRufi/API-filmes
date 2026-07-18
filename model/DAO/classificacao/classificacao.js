@@ -4,7 +4,6 @@ const knexDataBaseConfig = require('../../database_config/knexConfig.js')
 const knexConection = knex(knexDataBaseConfig.development)
 
 const insertClassificacao = async function(classificacao){
-    // console.log(`chegou: ${classificacao}`);
     
    try {
         let sql = `insert into tbl_classificacao(
@@ -31,8 +30,10 @@ const selectByIdClassificacao = async function(id){
 
         let result = await knexConection.raw(sql)
 
-        if(result)
+        if(result){
+
             return result[0]
+        }
         else
             return false
     } catch (error) {

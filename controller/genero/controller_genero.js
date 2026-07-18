@@ -173,7 +173,7 @@ const excluirGenero = async function(id){
 const validarDados = async function(genero){
     let customMessage = JSON.parse(JSON.stringify(configMenssages))
 
-    if(genero.nome == undefined || genero.nome == null || genero.nome == '' || genero.nome >30){
+    if(genero.nome == undefined || genero.nome == null || genero.nome == '' || genero.nome.length >30){
         customMessage.ERROR_BAD_REQUEST.field = '[NOME] INVÁLIDO'
         return customMessage.ERROR_BAD_REQUEST
     }

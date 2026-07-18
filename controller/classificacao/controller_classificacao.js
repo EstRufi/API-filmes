@@ -64,6 +64,36 @@ const listarClassificacao = async function(){
     }
 }
 
+const buscarClassificacao = async function(id){
+    let customMessage = JSON.parse(JSON.stringify(configMenssages))
+    
+    try {
+        if(id == undefined || isNaN(id) || id == null || String(id).replaceAll(' ','') == ''){
+            configMenssages.ERROR_BAD_REQUEST.field = '[ID] INVÁLIDO'
+            return customMessage.ERROR_BAD_REQUEST
+        }
+        else{
+            const result = await classificacaoDAO.selectByIdClassificacao(id)
+            
+            if(result){
+                if(result.length >0){
+                    customMessage.DEFAULT_MESSAGE.status = customMessage.SUCCES_RESPONSE.status
+                    customMessage.DEFAULT_MESSAGE.status_code = customMessage.SUCCES_RESPONSE.status_code
+                    customMessage.DEFAULT_MESSAGE.response.classificacao = result
+
+                    return customMessage.DEFAULT_MESSAGE
+                }
+                else
+                    return customMessage.ERROR_NOT_FOUND
+            }
+            else
+                return customMessage.ERROR_INTERNAL_SERVER_MODEL
+        }
+    } catch (error) {
+        return customMessage.ERROR_INTERNAL_SERVER_CONTROLLER
+    }
+}
+
 const validarDados = async function(classificacao){
     let customMessage = JSON.parse(JSON.stringify(configMenssages))    
     
@@ -83,5 +113,6 @@ const tratarDados = async function(classificacao){
 
 module.exports = {
     inserirClassificacao,
-    listarClassificacao
+    listarClassificacao,
+    buscarClassificacao,
 }

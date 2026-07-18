@@ -22,4 +22,12 @@ router.get('/',async function (request, response){
     response.json(result)
 })
 
+router.get('/:id', async function(request,response){
+    let id = request.params.id
+    let result = await controllerClassificacao.buscarClassificacao(id)
+
+    response.status(result.status_code)
+    response.json(result)
+})
+
 module.exports = router
