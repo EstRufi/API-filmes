@@ -21,8 +21,9 @@ create table tbl_filme (
     avaliacao 			decimal(3,2) default null
 );
 
-	# se caso vc queira te ferrar ou ferrar o amigo use o drop mas não é recomendado (só se quiser ferrar o amigo)
 
+	# se caso vc queira te ferrar ou ferrar o amigo use o drop mas não é recomendado (só se quiser ferrar o amigo)
+	
 insert into tbl_filme (
 	nome,
     sinopse,
@@ -95,7 +96,7 @@ insert into tbl_filme (
     references tbl_genero(id)
     
  );
- 
+
 # delete from tbl_genero where id = 1;
  
 	# CLassificacao
@@ -124,8 +125,6 @@ select * from tbl_classificacao order by id desc;
 
 select * from tbl_filme order by id desc;
 
-delete from tbl_filme;
-delete from tbl_filme_genero;
 
  select tbl_genero.*
                 from tbl_filme

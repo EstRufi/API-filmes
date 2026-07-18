@@ -104,7 +104,6 @@ const selectAllFilme = async function(){
         //Executa no BD o script e guarda o retirno do BD,
         //pode ser um Erro (false) ou um Array com os dados
         let result = await knexConection.raw(sql)
-
         //Validação para verificar se o retorno do BD é um
         // Array ou Boolean (false)
         if(Array.isArray(result)){

@@ -170,12 +170,12 @@ const listarFilme = async function(){
     try {
         // Chama a função do DAO para retornar a lista de filmes do BD
         let result = await filmeDAO.selectAllFilme()
+        
         // Validação para verificar se o DAO conseguiu processar o script no BD
         if(result){
             //Validar para verificar se o conteúdo do ARRAy tem dados de
             //retorno ou se está vazio
             if(result.length > 0){ 
-
                 for (filme of result) {
                     // fazer classificacao
 
@@ -195,12 +195,12 @@ const listarFilme = async function(){
                     // Manipulação de dados para retorna os Generos relacionados ao filmes
 
                     let resultGeneros = await controllerFilmeGenero.buscarGeneroIdFilme(filme.id)
+                    
                     if(resultGeneros.status){                   // observar o id que está usando
                         filme.genero = resultGeneros.response.filme_genero
                     }
                     else
-                        return resultGeneros
-                    
+                        filme_genero = []
                 }
                 customMessage.DEFAULT_MESSAGE.status = customMessage.SUCCES_RESPONSE.status
                 customMessage.DEFAULT_MESSAGE.status_code = customMessage.SUCCES_RESPONSE.status_code
