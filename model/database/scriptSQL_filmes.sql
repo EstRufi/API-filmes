@@ -117,7 +117,21 @@ insert into tbl_classificacao(
 	        '+16'
         );
 
-
+# realiando trigger
+DELIMITER $
+#Realizando a criação
+	create trigger trg_delete_filmes_genero
+#Aqui o before é uma ação que quero na tabela antes, mas se for depois pode usar "after" e o on é como se fosse nosso "o"
+		before delete on tbl_filme
+# aqui fala se cada linha da tabela irei fazer uma ação
+			for each row
+            BEGIN
+#aqui falo de qual tabela tbm vou mecher(intermediaria), quando vou mecher tenho que colocar no final se o id ira muda(no caso aqui antes de eu deleter por conta do old, se fosse depois era new)
+				delete from tbl_filme_genero where id_filme = old.id;
+# end é o fim (cabooo)
+END $
+            
+#show triggers; ver as triggers que tenho
 
 
 select * from tbl_classificacao order by id desc;
@@ -132,4 +146,4 @@ select * from tbl_filme order by id desc;
                         on tbl_filme.id = tbl_filme_genero.id_filme
                     inner join tbl_genero
                         on tbl_genero.id = tbl_filme_genero.id_genero
-                where tbl_filme.id = 62 ;
+                where tbl_filme.id = 13 ;
