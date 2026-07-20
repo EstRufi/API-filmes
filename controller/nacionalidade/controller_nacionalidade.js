@@ -40,18 +40,18 @@ const inserirNacionalidade = async function(nacionalidade, contentType){
     }
 }
 
-const listarClassificacao = async function(){
+const listarNacionalidade = async function(){
     let customMessage = JSON.parse(JSON.stringify(configMenssages))
 
     try {
-        let result = await nacionalidadeDAO.selectAllClassificacao()
+        let result = await nacionalidadeDAO.selectAllNacionalidade()
 
         if(result){
             if(result.length > 0){
                 customMessage.DEFAULT_MESSAGE.status = customMessage.SUCCES_RESPONSE.status
                 customMessage.DEFAULT_MESSAGE.status_code = customMessage.SUCCES_RESPONSE.status_code
                 customMessage.DEFAULT_MESSAGE.response.cout =  result.length
-                customMessage.DEFAULT_MESSAGE.response.classificacao = result
+                customMessage.DEFAULT_MESSAGE.response.nacionalidade = result
 
                 return customMessage.DEFAULT_MESSAGE
             }
@@ -65,7 +65,7 @@ const listarClassificacao = async function(){
     }
 }
 
-const buscarClassificacao = async function(id){
+const buscarNacionalidade = async function(id){
     let customMessage = JSON.parse(JSON.stringify(configMenssages))
     
     try {
@@ -74,13 +74,13 @@ const buscarClassificacao = async function(id){
             return customMessage.ERROR_BAD_REQUEST
         }
         else{
-            const result = await nacionalidadeDAO.selectByIdClassificacao(id)
+            const result = await nacionalidadeDAO.selectByIdNacionalidade(id)
             
             if(result){
                 if(result.length >0){
                     customMessage.DEFAULT_MESSAGE.status = customMessage.SUCCES_RESPONSE.status
                     customMessage.DEFAULT_MESSAGE.status_code = customMessage.SUCCES_RESPONSE.status_code
-                    customMessage.DEFAULT_MESSAGE.response.classificacao = result
+                    customMessage.DEFAULT_MESSAGE.response.nacionalidade = result
 
                     return customMessage.DEFAULT_MESSAGE
                 }
@@ -178,8 +178,8 @@ const tratarDados = async function(nacionalidade){
 
 module.exports = {
     inserirNacionalidade,
-    listarClassificacao,
-    buscarClassificacao,
+    listarNacionalidade,
+    buscarNacionalidade,
     atualizarClassificacao,
     deletarClassificacao
 }

@@ -24,9 +24,9 @@ const insertNacionalidade = async function(nacionalidade){
     }
 }
 
-const selectByIdClassificacao = async function(id){
+const selectByIdNacionalidade = async function(id){
     try {
-        let sql = `select * from tbl_classificacao where id=${id}`
+        let sql = `select * from tbl_nacionalidade where id=${id}`
 
         let result = await knexConection.raw(sql)
 
@@ -41,9 +41,9 @@ const selectByIdClassificacao = async function(id){
     }
 }
 
-const selectAllClassificacao = async function(){
+const selectAllNacionalidade = async function(){
     try {
-        let sql = `select * from tbl_classificacao order by id desc;`
+        let sql = `select * from tbl_nacionalidade order by id desc;`
 
         let result = await knexConection.raw(sql)
     
@@ -56,11 +56,11 @@ const selectAllClassificacao = async function(){
     }
 }
 
-const updateClassificacao = async function(classificacao){
+const updateNacionalidade = async function(nacionalidade){
     try {
-        let sql = `update tbl_classificacao set
-            classificacao_filme = '${classificacao.classificacao_filme}'
-            where id = '${classificacao.id}';`
+        let sql = `update tbl_nacionalidade set
+            nacionalidade = '${nacionalidade.nacionalidade}'
+            where id = '${nacionalidade.id}';`
 
         let result = await knexConection.raw(sql)
 
@@ -73,9 +73,9 @@ const updateClassificacao = async function(classificacao){
     }
 }
 
-const deleteClassificacao = async function(id){
+const deleteNacionalidade = async function(id){
     try {
-        let sql = `delete from tbl_classificacao where id = ${id}`
+        let sql = `delete from tbl_nacionalidade where id = ${id}`
 
         let result = await knexConection.raw(sql)
 
@@ -91,8 +91,8 @@ const deleteClassificacao = async function(id){
 
 module.exports ={
     insertNacionalidade,
-    selectByIdClassificacao,
-    selectAllClassificacao,
-    updateClassificacao,
-    deleteClassificacao
+    selectByIdNacionalidade,
+    selectAllNacionalidade,
+    updateNacionalidade,
+    deleteNacionalidade
 }
