@@ -1,27 +1,28 @@
 const configMenssages = require('../modulo/configMenssages')
 
-const classificacaoDAO = require('../../model/DAO/classificacao/classificacao.js')
+const nacionalidadeDAO = require('../../model/DAO/nacionalidade/nacionalidade.js')
 
-const inserirClassificacao = async function(classificacao, contentType){
+
+const inserirNacionalidade = async function(nacionalidade, contentType){
 
     let customMessage = JSON.parse(JSON.stringify(configMenssages))
 
     try {
         if(String(contentType).toUpperCase() == 'APPLICATION/JSON'){
             
-            let validar = await validarDados(classificacao)
+            let validar = await validarDados(nacionalidade)
             
             if(validar){
                 
-                let result = await classificacaoDAO.insertClassificacao(await tratarDados(classificacao))
+                let result = await nacionalidadeDAO.insertNacionalidade(await tratarDados(nacionalidade))
                 
                 if(result){
                     
-                    classificacao.id = result
+                    nacionalidade.id = result
                     customMessage.DEFAULT_MESSAGE.status = customMessage.SUCCES_CREATED_ITEM.status
                     customMessage.DEFAULT_MESSAGE.status_code = customMessage.SUCCES_CREATED_ITEM.status_code
                     customMessage.DEFAULT_MESSAGE.message = customMessage.SUCCES_CREATED_ITEM.message
-                    customMessage.DEFAULT_MESSAGE.response = classificacao
+                    customMessage.DEFAULT_MESSAGE.response = nacionalidade
 
                     return customMessage.DEFAULT_MESSAGE
                 }
@@ -43,7 +44,7 @@ const listarClassificacao = async function(){
     let customMessage = JSON.parse(JSON.stringify(configMenssages))
 
     try {
-        let result = await classificacaoDAO.selectAllClassificacao()
+        let result = await nacionalidadeDAO.selectAllClassificacao()
 
         if(result){
             if(result.length > 0){
@@ -73,7 +74,7 @@ const buscarClassificacao = async function(id){
             return customMessage.ERROR_BAD_REQUEST
         }
         else{
-            const result = await classificacaoDAO.selectByIdClassificacao(id)
+            const result = await nacionalidadeDAO.selectByIdClassificacao(id)
             
             if(result){
                 if(result.length >0){
@@ -108,7 +109,7 @@ const atualizarClassificacao = async function (classificacao,id,contentType) {
                     if(validar){
                         classificacao.id = Number(id)
 
-                        let result = await classificacaoDAO.updateClassificacao(await tratarDados(classificacao))
+                        let result = await nacionalidadeDAO.updateClassificacao(await tratarDados(classificacao))
 
                         if(result){
                             customMessage.DEFAULT_MESSAGE.status = customMessage.SUCCES_UPDATED_ITEM.status
@@ -143,7 +144,7 @@ const deletarClassificacao = async function (id){
     try {
         let resultBuscarClassificacao = await buscarClassificacao(id)
         if(resultBuscarClassificacao.status){
-            let result = await classificacaoDAO.deleteClassificacao(id)
+            let result = await nacionalidadeDAO.deleteClassificacao(id)
 
             if(result){
                 return customMessage.SUCCES_DELETED_ITEM
@@ -158,10 +159,10 @@ const deletarClassificacao = async function (id){
     }
 }
 
-const validarDados = async function(classificacao){
+const validarDados = async function(nacionalidade){
     let customMessage = JSON.parse(JSON.stringify(configMenssages))    
     
-    if(classificacao.classificacao_filme == undefined || classificacao.classificacao_filme == null || classificacao.classificacao_filme.length > 7 || classificacao.classificacao_filme == ''){
+    if(nacionalidade.nacionalidade == undefined || nacionalidade.nacionalidade == null || nacionalidade.nacionalidade.length > 30 || nacionalidade.nacionalidade == ''){
         customMessage.ERROR_BAD_REQUEST.field = '[NOME] INVÁLIDO'
         return customMessage.ERROR_BAD_REQUEST
     }
@@ -169,14 +170,14 @@ const validarDados = async function(classificacao){
         return true
 }
 
-const tratarDados = async function(classificacao){
-    classificacao.classificacao_filme = classificacao.classificacao_filme.replaceAll("'","")
+const tratarDados = async function(nacionalidade){
+    nacionalidade.nacionalidade = nacionalidade.nacionalidade.replaceAll("'","")
 
-    return classificacao
+    return nacionalidade
 }
 
 module.exports = {
-    inserirClassificacao,
+    inserirNacionalidade,
     listarClassificacao,
     buscarClassificacao,
     atualizarClassificacao,

@@ -92,6 +92,10 @@ app.use('/v1/senai/locadora/genero', cors(), generoRouter)
 const classificacaoRouter = require('./routes/classificacao.router.js')
 app.use('/v1/senai/locadora/classificacao',cors(), classificacaoRouter)
 
+// Nacionalidade
+const nacionalidadeRouter = require('./routes/nacionalidade.router.js')
+app.use('/v1/senai/locadora/nacionalidade',cors(),nacionalidadeRouter)
+
 //Fazer o Start na API (aguardando as requisições)
 app.listen(8080, function(){
     console.log("API aguardando novas requisições . . . .")

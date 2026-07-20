@@ -3,13 +3,13 @@ const knexDataBaseConfig = require('../../database_config/knexConfig.js')
 
 const knexConection = knex(knexDataBaseConfig.development)
 
-const insertClassificacao = async function(classificacao){
+const insertNacionalidade = async function(nacionalidade){
     
    try {
-        let sql = `insert into tbl_classificacao(
-	        classificacao_filme
+        let sql = `insert into tbl_nacionalidade(
+            nacionalidade
         )value(
-	        '${classificacao.classificacao_filme}'
+            '${nacionalidade.nacionalidade}'
         );`
 
         let result = await knexConection.raw(sql)
@@ -90,7 +90,7 @@ const deleteClassificacao = async function(id){
 }
 
 module.exports ={
-    insertClassificacao,
+    insertNacionalidade,
     selectByIdClassificacao,
     selectAllClassificacao,
     updateClassificacao,

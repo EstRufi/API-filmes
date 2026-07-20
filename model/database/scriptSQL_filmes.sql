@@ -147,3 +147,9 @@ select * from tbl_filme order by id desc;
                     inner join tbl_genero
                         on tbl_genero.id = tbl_filme_genero.id_genero
                 where tbl_filme.id = 13 ;
+                
+create table tbl_nacionalidade(
+	id int not null auto_increment primary key,
+    nacionalidade varchar(30) not null
+);
+
