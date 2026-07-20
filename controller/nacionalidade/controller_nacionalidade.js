@@ -95,27 +95,26 @@ const buscarNacionalidade = async function(id){
     }
 }
 
-const atualizarClassificacao = async function (classificacao,id,contentType) {
+const atualizarNacionalidade = async function (nacionalidade,id,contentType) {
     let customMessage = JSON.parse(JSON.stringify(configMenssages))
-    
+     
     try {
         if(String(contentType).toUpperCase() == 'APPLICATION/JSON'){
-            let resultBuscarClassificacao = await buscarClassificacao(id)
-
-            if(resultBuscarClassificacao.status){
-                if(resultBuscarClassificacao){
-                    let validar = validarDados(classificacao)
-
+            let resultBuscarNacionalidade = await buscarNacionalidade(id)
+            if(resultBuscarNacionalidade.status){
+                if(resultBuscarNacionalidade){
+                    let validar = await validarDados(nacionalidade)
+                    
                     if(validar){
-                        classificacao.id = Number(id)
+                        nacionalidade.id = Number(id)
 
-                        let result = await nacionalidadeDAO.updateClassificacao(await tratarDados(classificacao))
+                        let result = await nacionalidadeDAO.updateNacionalidade(await tratarDados(nacionalidade))
 
                         if(result){
                             customMessage.DEFAULT_MESSAGE.status = customMessage.SUCCES_UPDATED_ITEM.status
                             customMessage.DEFAULT_MESSAGE.status_code = customMessage.SUCCES_UPDATED_ITEM.status_code
                             customMessage.DEFAULT_MESSAGE.message = customMessage.SUCCES_UPDATED_ITEM.message
-                            customMessage.DEFAULT_MESSAGE.response = classificacao
+                            customMessage.DEFAULT_MESSAGE.response = nacionalidade
 
                             return customMessage.DEFAULT_MESSAGE
                         }
@@ -129,7 +128,7 @@ const atualizarClassificacao = async function (classificacao,id,contentType) {
                     return customMessage.ERROR_BAD_REQUEST
             }
             else
-                return resultBuscarClassificacao
+                return resultBuscarNacionalidade
         }
         else
             return customMessage.ERROR_CONTENT_TYPE
@@ -138,7 +137,7 @@ const atualizarClassificacao = async function (classificacao,id,contentType) {
     }
 }
 
-const deletarClassificacao = async function (id){
+const deletarNacionalidade = async function (id){
     let customMessage = JSON.parse(JSON.stringify(configMenssages))
 
     try {
@@ -180,6 +179,6 @@ module.exports = {
     inserirNacionalidade,
     listarNacionalidade,
     buscarNacionalidade,
-    atualizarClassificacao,
-    deletarClassificacao
+    atualizarNacionalidade,
+    deletarNacionalidade
 }

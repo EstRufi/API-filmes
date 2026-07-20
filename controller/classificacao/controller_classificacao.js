@@ -103,7 +103,7 @@ const atualizarClassificacao = async function (classificacao,id,contentType) {
 
             if(resultBuscarClassificacao.status){
                 if(resultBuscarClassificacao){
-                    let validar = validarDados(classificacao)
+                    let validar = await validarDados(classificacao)
 
                     if(validar){
                         classificacao.id = Number(id)

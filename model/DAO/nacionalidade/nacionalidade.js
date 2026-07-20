@@ -58,6 +58,7 @@ const selectAllNacionalidade = async function(){
 
 const updateNacionalidade = async function(nacionalidade){
     try {
+        console.log(`sql nacionalidade? ${nacionalidade}`)
         let sql = `update tbl_nacionalidade set
             nacionalidade = '${nacionalidade.nacionalidade}'
             where id = '${nacionalidade.id}';`
