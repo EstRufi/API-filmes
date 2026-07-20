@@ -97,7 +97,7 @@ const buscarNacionalidade = async function(id){
 
 const atualizarNacionalidade = async function (nacionalidade,id,contentType) {
     let customMessage = JSON.parse(JSON.stringify(configMenssages))
-     
+
     try {
         if(String(contentType).toUpperCase() == 'APPLICATION/JSON'){
             let resultBuscarNacionalidade = await buscarNacionalidade(id)
@@ -141,9 +141,9 @@ const deletarNacionalidade = async function (id){
     let customMessage = JSON.parse(JSON.stringify(configMenssages))
 
     try {
-        let resultBuscarClassificacao = await buscarClassificacao(id)
-        if(resultBuscarClassificacao.status){
-            let result = await nacionalidadeDAO.deleteClassificacao(id)
+        let resultbuscarNacionalidade = await buscarNacionalidade(id)
+        if(resultbuscarNacionalidade.status){
+            let result = await nacionalidadeDAO.deleteNacionalidade(id)
 
             if(result){
                 return customMessage.SUCCES_DELETED_ITEM

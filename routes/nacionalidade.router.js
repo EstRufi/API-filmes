@@ -39,4 +39,12 @@ router.put('/:id',bodyParserJson, async function(request,response){
     response.status(result.status_code)
     response.json(result)
 })
+
+router.delete('/:id',async function (request,response) {
+    let id = request.params.id
+    let result = await controllerNacionalidade.deletarNacionalidade(id)
+
+    response.status(result.status_code)
+    response.json(result)
+})
 module.exports = router
