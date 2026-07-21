@@ -22,7 +22,7 @@ const knexConection = knex(knexDataBaseConfig.development)
 // Função para inserir um novo filme no banco de dados
 const insertFilme = async function(filme){
     try {
-
+        // ACHEI O ERRO CADE ID_CLASSIFICACAO????????????
         let sql = `insert into tbl_filme (
             nome,
             sinopse,

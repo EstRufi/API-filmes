@@ -10,6 +10,7 @@ use db_filmes_20261_b;
 	#Permite visualizar todas as tabelas existentes dentro do database
 show tables;
 
+## ESTA FALTANDO O ID CLASSIFICACAO POR ISSO NÃO VAI
 create table tbl_filme (
 	id 					int not null auto_increment primary key,
     nome 				varchar(85) not null,
@@ -24,32 +25,32 @@ create table tbl_filme (
 
 	# se caso vc queira te ferrar ou ferrar o amigo use o drop mas não é recomendado (só se quiser ferrar o amigo)
 	
-insert into tbl_filme (
-	nome,
-    sinopse,
-    capa,
-    data_lancamento,
-    duracao,
-    valor,
-    avaliacao
-) values(
-	replace('Super Mario Galaxy: O Filme',"'",""),
+#insert into tbl_filme (
+#	nome,
+#    sinopse,
+#    capa,
+ #   data_lancamento,
+ #   duracao,
+ #   valor,
+ #   avaliacao
+#) values(
+#	replace('Super Mario Galaxy: O Filme',"'",""),
+ #   
+ #   'Uma nova aventura leva Mario a enfrentar um inédito e ameaçador super vilão.
+ #   Em Super Mario Galaxy: O Filme, o bigodudo encanador italiano e seus aliados 
+  #  embarcam numa aventura galáctica repleta de ação e momentos emocionantes depois
+  #  de salvar o Reino dos Cogumelos.',
     
-    'Uma nova aventura leva Mario a enfrentar um inédito e ameaçador super vilão.
-    Em Super Mario Galaxy: O Filme, o bigodudo encanador italiano e seus aliados 
-    embarcam numa aventura galáctica repleta de ação e momentos emocionantes depois
-    de salvar o Reino dos Cogumelos.',
+ #   'https://br.web.img3.acsta.net/c_310_420/img/5b/ea/5bea1aeac3323aeaaf82449a34fafbbf.jpg',
     
-    'https://br.web.img3.acsta.net/c_310_420/img/5b/ea/5bea1aeac3323aeaaf82449a34fafbbf.jpg',
+ #   '2026-04-02',
     
-    '2026-04-02',
+  #  '01:39:00',
     
-    '01:39:00',
+  #  '50.60',
     
-    '50.60',
-    
-    if('',null,2)
-);
+  #  if('',null,2)
+# );
 
 
 
@@ -160,4 +161,20 @@ create table tbl_sexo(
 create table tbl_cargo(
 	id int not null auto_increment primary key,
     atividade varchar(80) not null
+);
+
+create table tbl_profissional(
+	id int not null auto_increment primary key,
+    nome varchar(85) not null,
+    nome_nascimento varchar(85) default null,
+    data_nascimento date not null,
+    biografia text not null,
+    data_morte date default null,
+    data_inicio_carreira date not null,
+    foto varchar(256) not null,
+    id_sexo int not null,
+    
+    constraint FK_SEXO_FILME
+    foreign key (id_sexo)
+    references tbl_sexo(id)
 );
