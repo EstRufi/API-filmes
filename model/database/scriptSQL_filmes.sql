@@ -184,3 +184,17 @@ create table tbl_profissional(
     foreign key (id_sexo)
     references tbl_sexo(id)
 );
+
+ create table tbl_profissional_nacionalidade(
+	id int not null auto_increment primary	key,
+    id_profissional int not null,
+    id_nacionalidade int not null,
+    
+    constraint FK_PROFISSIONAL_PROFISSIONALNACIONALIDADE
+    foreign key (id_profissional)
+    references tbl_profissional(id),
+    
+    constraint FK_NACIONALIDADE_PROFISSIONALNACIONALIDADE
+    foreign key (id_nacionalidade)
+    references tbl_nacionalidade(id)
+ );
