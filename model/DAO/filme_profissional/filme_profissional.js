@@ -12,7 +12,7 @@ const insertfilmeProfissional = async function(filmeProfissional){
         )values(
             ${filmeProfissional.id_filme},
             ${filmeProfissional.id_profissional},
-            ${filmeProfissional.papel_autor}
+            "${filmeProfissional.papel_ator}"
         );`
 
         let  result = await knexConection.raw(sql)
@@ -93,15 +93,19 @@ const deletefilmeProfissional = async function (id) {
     }
 }
 
-const selectFilmeByIdProfissional = async function (idFilme) {
+const selectFilmeByIdProfissional = async function (idProfissional) {
     try {
-        let sql = `select tbl_filme.*
+        let sql = `select tbl_profissional.*,tbl_filme_profissional.papel_autor,tbl_nacionalidade.nacionalidade
                 from tbl_profissional
                     inner join tbl_filme_profissional
                         on tbl_profissional.id = tbl_filme_profissional.id_profissional
                     inner join tbl_filme
                         on tbl_filme.id = tbl_filme_profissional.id_filme
-                where tbl_filme.id = ${idFilme} ;`
+                    inner join tbl_profissional_nacionalidade
+                        on tbl_profissional.id = tbl_profissional_nacionalidade.id_profissional
+                    inner join tbl_nacionalidade
+                        on tbl_nacionalidade.id = tbl_profissional_nacionalidade.id_nacionalidade
+                where tbl_profissional.id = ${idProfissional} ;`
 
         let result = await knexConection.raw(sql)
 
@@ -114,15 +118,19 @@ const selectFilmeByIdProfissional = async function (idFilme) {
     }
 }
 
-const selectProfissionalByIdFilme = async function (idProfissional) {
+const selectProfissionalByIdFilme = async function (idFilme) {
     try {
-        let sql = `select tbl_filme.*
+        let sql = `select tbl_profissional.*,tbl_filme_profissional.papel_autor,tbl_nacionalidade.nacionalidade
                 from tbl_profissional
                     inner join tbl_filme_profissional
                         on tbl_profissional.id = tbl_filme_profissional.id_profissional
                     inner join tbl_filme
                         on tbl_filme.id = tbl_filme_profissional.id_filme
-                where tbl_profissional.id = ${idProfissional} ;`
+                    inner join tbl_profissional_nacionalidade
+                        on tbl_profissional.id = tbl_profissional_nacionalidade.id_profissional
+                    inner join tbl_nacionalidade
+                        on tbl_nacionalidade.id = tbl_profissional_nacionalidade.id_nacionalidade
+                where tbl_filme.id = ${idFilme} ;`
 
         let result = await knexConection.raw(sql)
 

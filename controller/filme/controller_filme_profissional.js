@@ -10,7 +10,7 @@ const inserirFilmeProfissional = async function(filmeProfissional){
             
             if(validar){
                 let result = await filmeProfissionalDAO.insertfilmeProfissional(filmeProfissional)
-
+                console.log(result)
                 if(result){
                     filmeProfissional.id = result
 
@@ -160,7 +160,7 @@ const validarDados = async function(filmeProfissional){
         customMessage.ERROR_BAD_REQUEST.field = '[ID_PROFISSIONAL] INVÁLIDO'
         return customMessage.ERROR_BAD_REQUEST
     }
-    else if(filmeProfissional.papel_autor == undefined || filmeProfissional.papel_autor == '' || filmeProfissional.papel_autor == null || filmeProfissional.papel_autor.length > 80){
+    else if(filmeProfissional.papel_ator == undefined || filmeProfissional.papel_ator == '' || filmeProfissional.papel_ator == null || filmeProfissional.papel_ator.length > 80){
         customMessage.ERROR_BAD_REQUEST.field = '[PAPEL DO AUTOR] INVÁLIDO'
         return customMessage.ERROR_BAD_REQUEST
     }
@@ -247,4 +247,15 @@ const excluirProfissionalIdNacionalidade = async function(idFilme){
     } catch (error) {
         return customMessage.ERROR_INTERNAL_SERVER_CONTROLLER
     }
+}
+
+module.exports = {
+    inserirFilmeProfissional,
+    listarfilmeProfissional,
+    buscarFilmeProfissional,
+    atualizarFilmeProfissional,
+    excluirFilmeProfissional,
+    buscarFilmeIdProfissional,
+    buscarProfissionalIdFilme,
+    excluirProfissionalIdNacionalidade
 }

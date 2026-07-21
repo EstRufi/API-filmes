@@ -16,6 +16,7 @@ const filmeDAO = require('../../model/DAO/filme/filme.js')
 const controllerClassificacao = require('../classificacao/controller_classificacao.js')
 
 const controllerFilmeGenero = require ('./controller_filme_genero.js')
+const controlllerFilmeProfissional = require('./controller_filme_profissional.js')
 
 // Função para inserir um novo filme
 const inserirNovoFilme = async function(filme, contentType){
@@ -56,6 +57,22 @@ const inserirNovoFilme = async function(filme, contentType){
 
                         //validação para ferificar se todos os itens de relacionamento foram inseridos
                         if(!resultFilmeGenero.status){
+                            return customMessage.SUCCES_CREATED_ITEM_WARNING
+                        }
+                        
+                    }
+
+                    for(itemProfissional of filme.profissional){
+                        let FilmeProfissional = {
+                            "id_filme": filme.id,
+                            "id_profissional": itemProfissional.id,
+                            "papel_ator": itemProfissional.papel_ator
+                        }
+
+                        let resultFilmeProfissional = await controlllerFilmeProfissional.inserirFilmeProfissional(FilmeProfissional)
+
+                        //validação para ferificar se todos os itens de relacionamento foram inseridos
+                        if(!resultFilmeProfissional.status){
                             return customMessage.SUCCES_CREATED_ITEM_WARNING
                         }
                         
@@ -124,6 +141,25 @@ const atualizarFilme = async function(filme, id, contentType){
             
                                     //validação para ferificar se todos os itens de relacionamento foram inseridos
                                     if(!resultFilmeGenero.status){
+                                        return customMessage.SUCCES_CREATED_ITEM_WARNING
+                                    }
+                                    
+                                }
+                            }
+                            
+                            let resultDeleteProfissional = await controlllerFilmeProfissional.excluirFilmeProfissional(filme.id)
+                            if(resultDeleteProfissional.status){
+                                for(itemProfissional of filme.profissional){
+                                    let FilmeProfissional = {
+                                        "id_filme": filme.id,
+                                        "id_profissional": itemProfissional.id,
+                                        "papel_ator": itemProfissional.papel_ator
+                                    }
+
+                                    let resultFilmeProfissional = await controlllerFilmeProfissional.inserirFilmeProfissional(FilmeProfissional)
+
+                                    //validação para ferificar se todos os itens de relacionamento foram inseridos
+                                    if(!resultFilmeProfissional.status){
                                         return customMessage.SUCCES_CREATED_ITEM_WARNING
                                     }
                                     
@@ -203,6 +239,15 @@ const listarFilme = async function(){
                     }
                     else
                         filme_genero = []
+
+                    // Profissional
+                    let resultProfissional = await controlllerFilmeProfissional.buscarProfissionalIdFilme(filme.id)
+                    
+                    if(resultProfissional.status){                   
+                        filme.profissional = resultProfissional.response.filme_profissional
+                    }
+                    else
+                        filme_profissional = []
                 }
                 customMessage.DEFAULT_MESSAGE.status = customMessage.SUCCES_RESPONSE.status
                 customMessage.DEFAULT_MESSAGE.status_code = customMessage.SUCCES_RESPONSE.status_code
@@ -271,6 +316,14 @@ const buscarFilme = async function(id){
                         else
                             return resultGeneros
                         
+                        // Profissional
+                        let resultProfissional = await controlllerFilmeProfissional.buscarProfissionalIdFilme(filme.id)
+                    
+                        if(resultProfissional.status){                   
+                            filme.profissional = resultProfissional.response.filme_profissional
+                        }
+                        else
+                            filme_profissional = []
                     }
 
 
