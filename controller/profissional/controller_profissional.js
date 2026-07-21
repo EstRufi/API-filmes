@@ -3,7 +3,7 @@ const configMenssages = require('../modulo/configMenssages.js')
 const profissionalDAO = require('../../model/DAO/profissional/profissional.js')
 
 //  Quando tiver as tabelas intermediarias prontas colocar aqui
-
+const controllerSexo = require('../sexo/controller_sexo.js')
 
 const inserirProfissional = async function(profissional, contentType){
 
@@ -56,6 +56,65 @@ const inserirProfissional = async function(profissional, contentType){
    }
     catch (error) {
         return customMessage.ERROR_INTERNAL_SERVER_CONTROLLER
+    }
+}
+
+const listarProfissional = async function () {
+
+    let customMessage = JSON.parse(JSON.stringify(configMenssages))
+
+    try {
+       
+        let result = await profissionalDAO.selectAllProfissional()
+
+        if (result) {
+            
+            if (result.length > 0) {
+
+                for (profissional of result) {
+                    
+                    let resultSexo = await controllerSexo.buscarSexo(profissional.id_sexo)
+
+                    if (resultSexo.status) {
+                       
+                        profissional.sexo = resultSexo.response.sexo
+
+
+                        
+                        delete profissional.id_sexo
+                    } else {
+                        return resultSexo
+                    }
+
+                    //Aqui coloca as coisas da intermediaria
+
+                    // let resultGeneros = await controllerFilmeGenero.buscarGeneroIdFilme(filme.id)
+
+                    // if (resultGeneros.status) {
+                    //     filme.genero = resultGeneros.response.filme_genero
+
+                    // // Aqui eu estou dizendo que se vier um 404 do gênero, ele não vai quebrar o codigo e vai continuar seguindo,
+                    // // Assim o codigo vai sair seguir evitando  erros
+                    // } else if(resultGeneros.status_code == 404){ 
+                    //     filme.genero = []
+                    // }else {
+                    //     return resultGeneros
+                    // }
+                }
+
+                customMessage.DEFAULT_MESSAGE.status = customMessage.SUCCES_RESPONSE.status
+                customMessage.DEFAULT_MESSAGE.status_code = customMessage.SUCCES_RESPONSE.status_code
+                customMessage.DEFAULT_MESSAGE.response.cout =  result.length
+                customMessage.DEFAULT_MESSAGE.response.profissional = result
+
+                return customMessage.DEFAULT_MESSAGE 
+            } else 
+                return customMessage.ERROR_NOT_FOUND 
+        } else 
+            return customMessage.ERROR_INTERNAL_SERVER_MODEL
+        
+    } catch (error) {
+        return customMessage.ERROR_INTERNAL_SERVER_CONTROLLER 
     }
 }
 
@@ -112,5 +171,6 @@ const tratarDados = async function(profissional){
     return profissional
 }
 module.exports = {
-    inserirProfissional
+    inserirProfissional,
+    listarProfissional
 }

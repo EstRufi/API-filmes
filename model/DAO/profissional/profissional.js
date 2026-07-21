@@ -38,6 +38,24 @@ const insertProfissional = async function(profissional){
     }
 }
 
+const selectAllProfissional = async function(){
+    try {
+
+        let sql = 'select * from tbl_profissional order by id desc'
+       
+        let result = await knexConection.raw(sql)
+
+        if(Array.isArray(result))
+            return result[0] 
+        else
+            return false
+
+    } catch (error) {
+        return false
+    }
+}
+
 module.exports = {
-    insertProfissional
+    insertProfissional,
+    selectAllProfissional
 }

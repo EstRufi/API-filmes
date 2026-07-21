@@ -15,5 +15,11 @@ router.post('/', bodyParserJson,async function(request,response){
     response.json(result)
 })
 
+router.get('/',async function (request, response){
+    let result = await controllerProfissional.listarProfissional()
+
+    response.status(result.status_code)
+    response.json(result)
+})
 
 module.exports = router
