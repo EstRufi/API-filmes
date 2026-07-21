@@ -91,8 +91,6 @@ const listarProfissional = async function () {
                     if (resultNacionalidade.status) {
                         profissional.nacionalidade = resultNacionalidade.response.profissional_nacionalidade
                     
-                    } else if(resultNacionalidade.status_code == 404){ 
-                        profissional.nacionalidade = []
                     }else {
                         return resultNacionalidade
                     }
@@ -153,9 +151,8 @@ const buscarProfissional = async function(id){
                         if (resultNacionalidade.status) {
                             profissional.nacionalidade = resultNacionalidade.response.profissional_nacionalidade
                         
-                        } else if(resultNacionalidade.status_code == 404){ 
-                            profissional.nacionalidade = []
-                        }else {
+                        } 
+                        else {
                             return resultNacionalidade
                         }
                     }

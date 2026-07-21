@@ -238,7 +238,7 @@ const listarFilme = async function(){
                         filme.genero = resultGeneros.response.filme_genero
                     }
                     else
-                        filme_genero = []
+                        return resultGeneros
 
                     // Profissional
                     let resultProfissional = await controlllerFilmeProfissional.buscarProfissionalIdFilme(filme.id)
@@ -247,7 +247,7 @@ const listarFilme = async function(){
                         filme.profissional = resultProfissional.response.filme_profissional
                     }
                     else
-                        filme_profissional = []
+                        return resultProfissional
                 }
                 customMessage.DEFAULT_MESSAGE.status = customMessage.SUCCES_RESPONSE.status
                 customMessage.DEFAULT_MESSAGE.status_code = customMessage.SUCCES_RESPONSE.status_code
@@ -323,7 +323,7 @@ const buscarFilme = async function(id){
                             filme.profissional = resultProfissional.response.filme_profissional
                         }
                         else
-                            filme_profissional = []
+                            return resultProfissional
                     }
 
 
