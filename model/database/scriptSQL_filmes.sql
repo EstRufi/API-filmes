@@ -157,3 +157,7 @@ create table tbl_sexo(
 	id int not null auto_increment primary key,
     sexo varchar(20) not null
 );
+create table tbl_cargo(
+	id int not null auto_increment primary key,
+    atividade varchar(80) not null
+);
