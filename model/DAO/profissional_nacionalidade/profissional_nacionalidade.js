@@ -91,7 +91,7 @@ const deleteProfissionalNacionalidade = async function (id) {
 
 const selectProfissionalByIdNacionalidade = async function (idNacionalidade) {
     try {
-        let sql = `select id_nacionalidade.*
+        let sql = `select tbl_nacionalidade.*
                 from tbl_profissional
                     inner join tbl_profissional_nacionalidade
                         on tbl_profissional.id = tbl_profissional_nacionalidade.id_profissional

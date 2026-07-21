@@ -206,3 +206,18 @@ create table tbl_profissional(
     foreign key (id_nacionalidade)
     references tbl_nacionalidade(id)
  );
+
+create table tbl_filme_profissional(
+	id int not null auto_increment primary	key,
+    id_filme int not null,
+    id_profissional int not null,
+    papel_autor varchar(85) not null,
+    
+    constraint FK_FILME_FILMEPROFISSIONAL
+    foreign key (id_filme)
+    references tbl_filme(id),
+    
+    constraint FK_PROFISSIONAL_FILMEPROFISSIONAL
+    foreign key (id_profissional)
+    references tbl_profissional(id)
+);
