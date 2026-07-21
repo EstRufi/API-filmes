@@ -118,6 +118,73 @@ const listarProfissional = async function () {
     }
 }
 
+const buscarProfissional = async function(id){
+    let customMessage = JSON.parse(JSON.stringify(configMenssages))
+
+    try {
+
+        if(id == undefined || String(id).replaceAll(' ', '') == ''|| id == null || isNaN(id)){
+            customMessage.ERROR_BAD_REQUEST.field = '[ID] INVÁLIDO'
+            return customMessage.ERROR_BAD_REQUEST
+        }
+        else{
+  
+            let result = await profissionalDAO.selectByIdProfissional(id)
+
+            if(result){
+
+                if(result.length >0){
+
+                    for (profissional of result) {
+                        
+                        let resultSexo = await controllerSexo.buscarSexo(profissional.id_sexo)
+
+                        if (resultSexo.status) {
+                        
+                            profissional.sexo = resultSexo.response.sexo
+
+
+                            
+                            delete profissional.id_sexo
+                        } else {
+                            return resultSexo
+                        }
+
+                        //Aqui coloca as coisas da intermediaria
+
+                        // let resultGeneros = await controllerFilmeGenero.buscarGeneroIdFilme(filme.id)
+
+                        // if (resultGeneros.status) {
+                        //     filme.genero = resultGeneros.response.filme_genero
+
+                        // // Aqui eu estou dizendo que se vier um 404 do gênero, ele não vai quebrar o codigo e vai continuar seguindo,
+                        // // Assim o codigo vai sair seguir evitando  erros
+                        // } else if(resultGeneros.status_code == 404){ 
+                        //     filme.genero = []
+                        // }else {
+                        //     return resultGeneros
+                        // }
+                    }
+
+
+                    customMessage.DEFAULT_MESSAGE.status = customMessage.SUCCES_RESPONSE.status
+                    customMessage.DEFAULT_MESSAGE.status_code = customMessage.SUCCES_RESPONSE.status_code
+                    customMessage.DEFAULT_MESSAGE.response.profissional = result
+
+                    return customMessage.DEFAULT_MESSAGE
+                }
+                else
+                    return customMessage.ERROR_NOT_FOUND 
+            }
+            else
+                return customMessage.ERROR_INTERNAL_SERVER_MODEL
+        }
+        
+    } catch (error) {
+        return customMessage.ERROR_INTERNAL_SERVER_CONTROLLER
+    }
+}
+
 const validarDados = async function(profissional){
     let customMessage = JSON.parse(JSON.stringify(configMenssages))
 
@@ -172,5 +239,6 @@ const tratarDados = async function(profissional){
 }
 module.exports = {
     inserirProfissional,
-    listarProfissional
+    listarProfissional,
+    buscarProfissional
 }
