@@ -181,17 +181,19 @@ const listarFilme = async function(){
 
                     // //Buscando a classificacao que tem em cada filme.
                     // //Busca na controller da classificacao o ID referente a FK da classificacao. (Explicação do professor)
-                    // let resultClassificacao = await controllerClassificacao.buscarClassificacao(filme.id_classificacao)
+                    let resultClassificacao = await controllerClassificacao.buscarClassificacao(filme.id_classificacao)
 
-                    // if (resultClassificacao.status) {
+                    if (resultClassificacao.status) {
                     //     //Entrando dentro da área que contém a classificação com o id e o nome dela. (Minha explicação)
                     //     //Adicionar um atributo classificação no JSON do filme e colocar o resultado com os dados da classificação. (Explicação do professor)
-                    //     filme.classificacao = resultClassificacao.response.classificacao
+                        filme.classificacao = resultClassificacao.response.classificacao
 
                     //     //Não é necessario deixar dois IDs no projeto, pois sem ele iria ter o id_classificacao e também o "classificacao" aonde iria conter o id também. (Minha explicação)
                     //     //Apaga o id_classificacao do JSON de filme. (Explicação do professor)
-                    //     delete filme.id_classificacao
-
+                        delete filme.id_classificacao
+                    }
+                    else
+                        return resultClassificacao
                     // Manipulação de dados para retorna os Generos relacionados ao filmes
 
                     let resultGeneros = await controllerFilmeGenero.buscarGeneroIdFilme(filme.id)
@@ -246,17 +248,19 @@ const buscarFilme = async function(id){
     
                         // //Buscando a classificacao que tem em cada filme.
                         // //Busca na controller da classificacao o ID referente a FK da classificacao. (Explicação do professor)
-                        // let resultClassificacao = await controllerClassificacao.buscarClassificacao(filme.id_classificacao)
+                        let resultClassificacao = await controllerClassificacao.buscarClassificacao(filme.id_classificacao)
     
-                        // if (resultClassificacao.status) {
+                        if (resultClassificacao.status) {
                         //     //Entrando dentro da área que contém a classificação com o id e o nome dela. (Minha explicação)
                         //     //Adicionar um atributo classificação no JSON do filme e colocar o resultado com os dados da classificação. (Explicação do professor)
-                        //     filme.classificacao = resultClassificacao.response.classificacao
+                            filme.classificacao = resultClassificacao.response.classificacao
     
                         //     //Não é necessario deixar dois IDs no projeto, pois sem ele iria ter o id_classificacao e também o "classificacao" aonde iria conter o id também. (Minha explicação)
                         //     //Apaga o id_classificacao do JSON de filme. (Explicação do professor)
-                        //     delete filme.id_classificacao
-    
+                            delete filme.id_classificacao
+                        }
+                        else
+                            return resultClassificacao
                         // Manipulação de dados para retorna os Generos relacionados ao filmes
     
                         let resultGeneros = await controllerFilmeGenero.buscarGeneroIdFilme(filme.id)

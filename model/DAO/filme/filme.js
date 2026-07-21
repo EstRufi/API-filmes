@@ -22,7 +22,6 @@ const knexConection = knex(knexDataBaseConfig.development)
 // Função para inserir um novo filme no banco de dados
 const insertFilme = async function(filme){
     try {
-        // ACHEI O ERRO CADE ID_CLASSIFICACAO????????????
         let sql = `insert into tbl_filme (
             nome,
             sinopse,
@@ -30,7 +29,8 @@ const insertFilme = async function(filme){
             data_lancamento,
             duracao,
             valor,
-            avaliacao
+            avaliacao,
+            id_classificacao
         ) values(
             '${filme.nome}',
         
@@ -44,7 +44,9 @@ const insertFilme = async function(filme){
         
             '${filme.valor}',
         
-            if('${filme.avaliacao}' = '',null, '${filme.avaliacao}')
+            if('${filme.avaliacao}' = '',null, '${filme.avaliacao}'),
+
+            '${filme.id_classificacao}'
         );`
 
         // como dar um de BUG
@@ -75,7 +77,8 @@ const updateFilme = async function(filme){
                     data_lancamento = '${filme.data_lancamento}',
                     duracao         = '${filme.duracao}',
                     valor           = '${filme.valor}',
-                    avaliacao       = if('${filme.avaliacao}' = '', null , '${filme.avaliacao}')
+                    avaliacao       = if('${filme.avaliacao}' = '', null , '${filme.avaliacao}'),
+                    id_classificacao = '${filme.id_classificacao}'
                     where id        = ${filme.id};`
 
         let result = await knexConection.raw(sql)

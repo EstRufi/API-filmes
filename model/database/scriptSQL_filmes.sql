@@ -19,7 +19,12 @@ create table tbl_filme (
     data_lancamento 	date not null,
     duracao 			time not null,
     valor 				decimal(5,2) default 0,
-    avaliacao 			decimal(3,2) default null
+    avaliacao 			decimal(3,2) default null,
+    id_classificacao 	int not null,
+    
+    constraint FK_CLASSIFICACAO_FILME
+    foreign key (id_classificacao)
+    references tbl_classificacao(id)
 );
 
 
@@ -175,7 +180,7 @@ create table tbl_profissional(
     foto varchar(256) not null,
     id_sexo int not null,
     
-    constraint FK_SEXO_FILME
+    constraint FK_SEXO_PROFISSIONAL
     foreign key (id_sexo)
     references tbl_sexo(id)
 );
