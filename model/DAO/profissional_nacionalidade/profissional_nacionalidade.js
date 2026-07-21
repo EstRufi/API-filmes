@@ -59,7 +59,7 @@ const updateProfissionalNacionalidade = async function(profissionalNacionalidade
     try {
         let sql = ` update tbl_profissional_nacionalidade set
             id_profissional = ${profissionalNacionalidade.id_profissional},
-            id_nacionalidade = ${filmeGenero.id_nacionalidade}
+            id_nacionalidade = ${profissionalNacionalidade.id_nacionalidade}
             where id = '${profissionalNacionalidade.id}';`
         let result = await knexConection.raw(sql)
 
@@ -89,15 +89,15 @@ const deleteProfissionalNacionalidade = async function (id) {
     }
 }
 
-const selectProfissionalByIdNacionalidade = async function (idProfissional) {
+const selectProfissionalByIdNacionalidade = async function (idNacionalidade) {
     try {
-        let sql = `select tbl_nacionalidade.*
+        let sql = `select id_nacionalidade.*
                 from tbl_profissional
                     inner join tbl_profissional_nacionalidade
                         on tbl_profissional.id = tbl_profissional_nacionalidade.id_profissional
                     inner join tbl_nacionalidade
                         on tbl_nacionalidade.id = tbl_profissional_nacionalidade.id_nacionalidade
-                where tbl_profissional.id = ${idProfissional} ;`
+                where tbl_nacionalidade.id = ${idNacionalidade} ;`
 
         let result = await knexConection.raw(sql)
 
@@ -110,7 +110,7 @@ const selectProfissionalByIdNacionalidade = async function (idProfissional) {
     }
 }
 
-const selectNacionalidadeByIdProfissional = async function (idNacionalidade) {
+const selectNacionalidadeByIdProfissional = async function (idProfissional) {
     try {
         let sql = `select tbl_nacionalidade.*
                 from tbl_profissional
@@ -118,7 +118,7 @@ const selectNacionalidadeByIdProfissional = async function (idNacionalidade) {
                         on tbl_profissional.id = tbl_profissional_nacionalidade.id_profissional
                     inner join tbl_nacionalidade
                         on tbl_nacionalidade.id = tbl_profissional_nacionalidade.id_nacionalidade
-                where tbl_nacionalidade.id = ${idNacionalidade} ;`
+                where tbl_profissional.id = ${idProfissional} ;`
 
         let result = await knexConection.raw(sql)
 

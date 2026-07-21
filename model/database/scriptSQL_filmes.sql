@@ -137,6 +137,14 @@ DELIMITER $
 # end é o fim (cabooo)
 END $
 
+DELIMITER $
+	create trigger trg_delete_profissional
+    before delete on tbl_profissional
+		for each row
+        begin
+			delete	from tbl_profissional_nacionalidade where id_profissional = old.id;
+END$
+
             
 #show triggers; ver as triggers que tenho
 

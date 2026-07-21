@@ -41,7 +41,7 @@ const atualizarProfissionalNacionalidade = async function(profissionalNacionalid
             
         if(resulBuscarId.status){
             if(resulBuscarId){
-                let validar = validarDados(profissionalNacionalidade)
+                let validar = await validarDados(profissionalNacionalidade)
 
                 if(validar){
                     profissionalNacionalidade.id = Number(id)

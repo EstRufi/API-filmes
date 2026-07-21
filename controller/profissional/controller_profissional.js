@@ -4,6 +4,7 @@ const profissionalDAO = require('../../model/DAO/profissional/profissional.js')
 
 //  Quando tiver as tabelas intermediarias prontas colocar aqui
 const controllerSexo = require('../sexo/controller_sexo.js')
+const controllerProfissionalNacionalidade = require('../profissional/controller_profissional_nacionalidade.js')
 
 const inserirProfissional = async function(profissional, contentType){
 
@@ -13,8 +14,8 @@ const inserirProfissional = async function(profissional, contentType){
         if(String(contentType).toUpperCase() == 'APPLICATION/JSON'){
 
             let validar = await validarDados(profissional)
-            
-            if(validar){
+            console.log(`vali ${validar}`)
+            if(!validar){
                 let result = await profissionalDAO.insertProfissional(await tratarDados(profissional))
                 
                 if(result){
@@ -22,20 +23,19 @@ const inserirProfissional = async function(profissional, contentType){
                     profissional.id = result
 
                     // mecher aqui SOMENTE QUANDO TIVER AS TABELAS INTERMEDIARIAS
-                    // for(itemGenero of filme.genero){
-                    //     let FilmeGenero = {
-                    //         "id_filme": filme.id,
-                    //         "id_genero": itemGenero.id
-                    //     }
+                    for(itemNacionalidade of profissional.nacionalidade){
+                        let profissionalNacionalidade = {
+                            "id_profissional": profissional.id,
+                            "id_nacionalidade": itemNacionalidade.id
+                        }
 
-                    //     let resultFilmeGenero = await controllerFilmeGenero.inserirFilmeGenero(FilmeGenero)
+                        let resultProfissionalNacionalidade= await controllerProfissionalNacionalidade.inserirProfissionalNacionalidade(profissionalNacionalidade)
 
-                    //     //validação para ferificar se todos os itens de relacionamento foram inseridos
-                    //     if(!resultFilmeGenero.status){
-                    //         return customMessage.SUCCES_CREATED_ITEM_WARNING
-                    //     }
+                        if(!resultProfissionalNacionalidade.status){
+                            return customMessage.SUCCES_CREATED_ITEM_WARNING
+                        }
                         
-                    // }
+                    }
 
                     customMessage.DEFAULT_MESSAGE.status =  customMessage.SUCCES_CREATED_ITEM.status
                     customMessage.DEFAULT_MESSAGE.status_code = customMessage.SUCCES_CREATED_ITEM.status_code
@@ -79,8 +79,6 @@ const listarProfissional = async function () {
                        
                         profissional.sexo = resultSexo.response.sexo
 
-
-                        
                         delete profissional.id_sexo
                     } else {
                         return resultSexo
@@ -88,18 +86,16 @@ const listarProfissional = async function () {
 
                     //Aqui coloca as coisas da intermediaria
 
-                    // let resultGeneros = await controllerFilmeGenero.buscarGeneroIdFilme(filme.id)
+                    let resultNacionalidade = await controllerProfissionalNacionalidade.buscarNacionalidadeIdProfissional(profissional.id)
 
-                    // if (resultGeneros.status) {
-                    //     filme.genero = resultGeneros.response.filme_genero
-
-                    // // Aqui eu estou dizendo que se vier um 404 do gênero, ele não vai quebrar o codigo e vai continuar seguindo,
-                    // // Assim o codigo vai sair seguir evitando  erros
-                    // } else if(resultGeneros.status_code == 404){ 
-                    //     filme.genero = []
-                    // }else {
-                    //     return resultGeneros
-                    // }
+                    if (resultNacionalidade.status) {
+                        profissional.nacionalidade = resultNacionalidade.response.profissional_nacionalidade
+                    
+                    } else if(resultNacionalidade.status_code == 404){ 
+                        profissional.nacionalidade = []
+                    }else {
+                        return resultNacionalidade
+                    }
                 }
 
                 customMessage.DEFAULT_MESSAGE.status = customMessage.SUCCES_RESPONSE.status
@@ -152,18 +148,16 @@ const buscarProfissional = async function(id){
 
                         //Aqui coloca as coisas da intermediaria
 
-                        // let resultGeneros = await controllerFilmeGenero.buscarGeneroIdFilme(filme.id)
+                        let resultNacionalidade = await controllerProfissionalNacionalidade.buscarNacionalidadeIdProfissional(profissional.id)
 
-                        // if (resultGeneros.status) {
-                        //     filme.genero = resultGeneros.response.filme_genero
-
-                        // // Aqui eu estou dizendo que se vier um 404 do gênero, ele não vai quebrar o codigo e vai continuar seguindo,
-                        // // Assim o codigo vai sair seguir evitando  erros
-                        // } else if(resultGeneros.status_code == 404){ 
-                        //     filme.genero = []
-                        // }else {
-                        //     return resultGeneros
-                        // }
+                        if (resultNacionalidade.status) {
+                            profissional.nacionalidade = resultNacionalidade.response.profissional_nacionalidade
+                        
+                        } else if(resultNacionalidade.status_code == 404){ 
+                            profissional.nacionalidade = []
+                        }else {
+                            return resultNacionalidade
+                        }
                     }
 
 
@@ -210,24 +204,20 @@ const atualizarProfissional = async function(profissional, id, contentType){
 
                             // Aqui somente quando tiver tabelas intermediarias
 
-                            // let resultDeleteGeneros = await controllerFilmeGenero.excluirGenerosIdFilme(filme.id)
-                            // if(resultDeleteGeneros.status){
-                            //     for(itemGenero of filme.genero){
-                            //         let FilmeGenero = {
-                            //             "id_filme": filme.id,
-                            //             "id_genero": itemGenero.id
-                            //         }
-            
-                            //         let resultFilmeGenero = await controllerFilmeGenero.inserirFilmeGenero(FilmeGenero)
-            
-                            //         //validação para ferificar se todos os itens de relacionamento foram inseridos
-                            //         if(!resultFilmeGenero.status){
-                            //             return customMessage.SUCCES_CREATED_ITEM_WARNING
-                            //         }
-                                    
-                            //     }
-                            // }
+                            for(itemNacionalidade of profissional.nacionalidade){
+                                let profissionalNacionalidade = {
+                                    "id_profissional": profissional.id,
+                                    "id_nacionalidade": itemNacionalidade.id
+                                }
 
+                                let resultProfissionalNacionalidade= await controllerProfissionalNacionalidade.inserirProfissionalNacionalidade(profissionalNacionalidade)
+
+                                if(!resultProfissionalNacionalidade.status){
+                                    return customMessage.SUCCES_CREATED_ITEM_WARNING
+                                }
+                                
+                            }
+                            
                             customMessage.DEFAULT_MESSAGE.status = customMessage.SUCCES_UPDATED_ITEM.status
                             customMessage.DEFAULT_MESSAGE.status_code = customMessage.SUCCES_UPDATED_ITEM.status_code
                             customMessage.DEFAULT_MESSAGE.message = customMessage.SUCCES_UPDATED_ITEM.message
