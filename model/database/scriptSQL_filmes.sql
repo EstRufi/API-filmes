@@ -131,6 +131,7 @@ DELIMITER $
 				delete from tbl_filme_genero where id_filme = old.id;
 # end é o fim (cabooo)
 END $
+
             
 #show triggers; ver as triggers que tenho
 

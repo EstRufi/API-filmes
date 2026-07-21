@@ -54,6 +54,7 @@ const selectAllProfissional = async function(){
         return false
     }
 }
+
 const selectByIdProfissional = async function(id){
     try {
         let sql = `select * from tbl_profissional where id=${id}`
@@ -72,8 +73,53 @@ const selectByIdProfissional = async function(id){
     }
 }
 
+const updateProfissional = async function(profissional){
+    try {
+
+        let sql = `update tbl_profissional set
+                    nome = '${profissional.nome}',
+                    nome_nascimento = if('${profissional.nome_nascimento}' = '', null , '${profissional.nome_nascimento}'),
+                    data_nascimento = '${profissional.data_nascimento}',
+                    biografia = '${profissional.biografia}',
+                    data_morte = if('${profissional.data_morte}' = '', null ,'${profissional.data_morte}'),
+                    data_inicio_carreira = '${profissional.data_inicio_carreira}',
+                    foto = '${profissional.foto}',
+                    id_sexo = ${profissional.id_sexo}
+                    where id = ${profissional.id};`
+
+        let result = await knexConection.raw(sql)
+
+        if (result) {
+            return true 
+        } else {
+            return false
+        }
+
+    } catch (error) {
+        return false
+    }
+}
+
+const deleteProfissional = async function(id){
+    try {
+        let sql = `delete from tbl_profissional where id=${id}`
+
+        let result = await knexConection.raw(sql)
+
+        if(result)
+            return true
+        else
+            false
+        
+    } catch (error) {
+        return false
+    }
+}
+
 module.exports = {
     insertProfissional,
     selectAllProfissional,
-    selectByIdProfissional
+    selectByIdProfissional,
+    updateProfissional,
+    deleteProfissional
 }

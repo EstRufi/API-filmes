@@ -185,6 +185,97 @@ const buscarProfissional = async function(id){
     }
 }
 
+const atualizarProfissional = async function(profissional, id, contentType){
+    let customMessage = JSON.parse(JSON.stringify(configMenssages))
+    
+    try {
+       
+        if (String(contentType).toUpperCase() == 'APPLICATION/JSON') {
+
+            let resultBuscarProfissional = await buscarProfissional(id)
+            
+            if (resultBuscarProfissional.status) {
+                
+                if (resultBuscarProfissional) {
+                   
+                    let validar = await validarDados(profissional)
+                    
+                    if (!validar) {
+
+                        profissional.id = Number(id)
+
+                        let result = await profissionalDAO.updateProfissional(await tratarDados(profissional))
+                        
+                        if (result) {
+
+                            // Aqui somente quando tiver tabelas intermediarias
+
+                            // let resultDeleteGeneros = await controllerFilmeGenero.excluirGenerosIdFilme(filme.id)
+                            // if(resultDeleteGeneros.status){
+                            //     for(itemGenero of filme.genero){
+                            //         let FilmeGenero = {
+                            //             "id_filme": filme.id,
+                            //             "id_genero": itemGenero.id
+                            //         }
+            
+                            //         let resultFilmeGenero = await controllerFilmeGenero.inserirFilmeGenero(FilmeGenero)
+            
+                            //         //validação para ferificar se todos os itens de relacionamento foram inseridos
+                            //         if(!resultFilmeGenero.status){
+                            //             return customMessage.SUCCES_CREATED_ITEM_WARNING
+                            //         }
+                                    
+                            //     }
+                            // }
+
+                            customMessage.DEFAULT_MESSAGE.status = customMessage.SUCCES_UPDATED_ITEM.status
+                            customMessage.DEFAULT_MESSAGE.status_code = customMessage.SUCCES_UPDATED_ITEM.status_code
+                            customMessage.DEFAULT_MESSAGE.message = customMessage.SUCCES_UPDATED_ITEM.message
+                            customMessage.DEFAULT_MESSAGE.response = profissional
+
+                            return customMessage.DEFAULT_MESSAGE
+
+                        } 
+                        else 
+                            return customMessage.ERROR_INTERNAL_SERVER_MODEL
+                    } else  
+                        return validar 
+                } 
+                else
+                    return customMessage.ERROR_BAD_REQUEST 
+            } else
+                return resultBuscarProfissional
+        } 
+        else 
+            return customMessage.ERROR_CONTENT_TYPE 
+    } catch (error) {
+        return customMessage.ERROR_INTERNAL_SERVER_CONTROLLER 
+    }
+}
+
+const deletarProfissional = async function (id){
+    let customMessage = JSON.parse(JSON.stringify(configMenssages))
+
+    try {
+        let resultBuscarProfissional = await buscarProfissional(id)
+        if(resultBuscarProfissional.status){
+            let result = await profissionalDAO.deleteProfissional(id)
+
+            if(result){
+                return customMessage.SUCCES_DELETED_ITEM
+            }
+            else
+                return customMessage.ERROR_INTERNAL_SERVER_MODEL
+        }
+        else
+            return resultBuscarProfissional
+    } catch (error) {
+        console.log(error)
+        return customMessage.ERROR_INTERNAL_SERVER_CONTROLLER
+    }
+}
+
+
 const validarDados = async function(profissional){
     let customMessage = JSON.parse(JSON.stringify(configMenssages))
 
@@ -204,7 +295,7 @@ const validarDados = async function(profissional){
         customMessage.ERROR_BAD_REQUEST.field = '[BIOGRAFIA] INVÁLIDO'
         return customMessage.ERROR_BAD_REQUEST
     }
-    else if(profissional.data_morte == undefined || profissional.data_morte.length != 10){
+    else if(profissional.data_morte == undefined && profissional.data_morte.length != 10){
         customMessage.ERROR_BAD_REQUEST.field = '[DATA DA MORTE] INVÁLIDO'
         return customMessage.ERROR_BAD_REQUEST
     }
@@ -240,5 +331,7 @@ const tratarDados = async function(profissional){
 module.exports = {
     inserirProfissional,
     listarProfissional,
-    buscarProfissional
+    buscarProfissional,
+    atualizarProfissional,
+    deletarProfissional
 }

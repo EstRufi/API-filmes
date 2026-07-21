@@ -30,4 +30,22 @@ router.get('/:id', async function(request,response){
     response.json(result)
 })
 
+router.put('/:id',bodyParserJson, async function (request,response){
+    let id = request.params.id
+    let dados = request.body
+    let contentType = request.headers['content-type']
+    let result = await controllerProfissional.atualizarProfissional(dados,id,contentType)
+
+    response.status(result.status_code)
+    response.json(result)
+})
+
+router.delete('/:id',async function(request, response){
+    let id = request.params.id
+    let result = await controllerProfissional.deletarProfissional(id)
+
+    response.status(result.status_code)
+    response.json(result)
+})
+
 module.exports = router
