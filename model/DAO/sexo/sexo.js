@@ -3,15 +3,14 @@ const knexDataBaseConfig = require('../../database_config/knexConfig.js')
 
 const knexConection = knex(knexDataBaseConfig.development)
 
-const insertSexo = async function(nacionalidade){
+const insertSexo = async function(sexo){
     
    try {
-        let sql = `insert into tbl_nacionalidade(
-            nacionalidade
+        let sql = `insert into tbl_sexo(
+            sexo
         )value(
-            '${nacionalidade.nacionalidade}'
+            '${sexo.sexo}'
         );`
-
         let result = await knexConection.raw(sql)
         if(result)
             return result[0].insertId
@@ -26,7 +25,7 @@ const insertSexo = async function(nacionalidade){
 
 const selectByIdSexo = async function(id){
     try {
-        let sql = `select * from tbl_nacionalidade where id=${id}`
+        let sql = `select * from tbl_sexo where id=${id}`
 
         let result = await knexConection.raw(sql)
 
@@ -43,7 +42,7 @@ const selectByIdSexo = async function(id){
 
 const selectAllSexo = async function(){
     try {
-        let sql = `select * from tbl_nacionalidade order by id desc;`
+        let sql = `select * from tbl_sexo order by id desc;`
 
         let result = await knexConection.raw(sql)
     
@@ -56,15 +55,15 @@ const selectAllSexo = async function(){
     }
 }
 
-const updateSexo = async function(nacionalidade){
+const updateSexo = async function(sexo){
     try {
-        console.log(`sql nacionalidade? ${nacionalidade}`)
-        let sql = `update tbl_nacionalidade set
-            nacionalidade = '${nacionalidade.nacionalidade}'
-            where id = '${nacionalidade.id}';`
+        
+        let sql = `update tbl_sexo set
+            sexo = '${sexo.sexo}'
+            where id = '${sexo.id}';`
 
         let result = await knexConection.raw(sql)
-
+        
         if(result)
             return true
         else
@@ -76,7 +75,7 @@ const updateSexo = async function(nacionalidade){
 
 const deleteSexo = async function(id){
     try {
-        let sql = `delete from tbl_nacionalidade where id = ${id}`
+        let sql = `delete from tbl_sexo where id = ${id}`
 
         let result = await knexConection.raw(sql)
 
