@@ -237,3 +237,17 @@ create table tbl_profissional_cargo(
     foreign key (id_cargo)
     references tbl_cargo(id)
 );
+
+create table tbl_filme_profissionalcargo(
+	id int not null auto_increment primary key,
+    id_filme int not null,
+    id_profissional_cargo int not null,
+    
+    constraint FK_FILME_FILMEPROFISSIONALCARGO
+    foreign key (id_filme)
+    references tbl_filme(id),
+    
+    constraint FK_PROFISSIONAL_FILMEPROFISSIONALCARGO
+    foreign key (id_profissional_cargo)
+    references tbl_profissional_cargo(id)
+);

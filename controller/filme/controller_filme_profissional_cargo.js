@@ -1,23 +1,23 @@
 const configMenssages = require('../modulo/configMenssages.js')
 
-const profissionalCargoDAO = require('../../model/DAO/profissional_cargo/profissional_cargo.js')
+const filmefilmeProfissionalCargoDAO = require('../../model/DAO/filme_profissional_cargo/filme_profissional_cargo.js')
 
-const inserirProfissionalCargo = async function(profissionalCargo){
+const inserirFilmeProfissionalCargo = async function(filmeProfissionalCargo){
     let customMessage = JSON.parse(JSON.stringify(configMenssages))
 
     try {
-            let validar = await validarDados(profissionalCargo)
+            let validar = await validarDados(filmeProfissionalCargo)
             
             if(validar){
-                let result = await profissionalCargoDAO.insertProfissionalCargo(profissionalCargo)
+                let result = await filmefilmeProfissionalCargoDAO.insertFilmeProfissionalCargo(filmeProfissionalCargo)
 
                 if(result){
-                    profissionalCargo.id = result
+                    filmeProfissionalCargo.id = result
 
                     customMessage.DEFAULT_MESSAGE.status = customMessage.SUCCES_CREATED_ITEM.status
                     customMessage.DEFAULT_MESSAGE.status_code = customMessage.SUCCES_CREATED_ITEM.status_code
                     customMessage.DEFAULT_MESSAGE.message = customMessage.SUCCES_CREATED_ITEM.message
-                    customMessage.DEFAULT_MESSAGE.response = profissionalCargo
+                    customMessage.DEFAULT_MESSAGE.response = filmeProfissionalCargo
 
                     return customMessage.DEFAULT_MESSAGE
                 }
@@ -33,26 +33,26 @@ const inserirProfissionalCargo = async function(profissionalCargo){
     }
 }
 
-const atualizarProfissionalCargo = async function(profissionalCargo,id){
+const atualizarFilmeProfissionalCargo = async function(filmeProfissionalCargo,id){
     let customMessage = JSON.parse(JSON.stringify(configMenssages))
     try {
  
-        let resulBuscarId = await buscarProfissionalCargo(id)
+        let resulBuscarId = await buscarfilmeProfissionalCargo(id)
             
         if(resulBuscarId.status){
             if(resulBuscarId){
-                let validar = await validarDados(profissionalCargo)
+                let validar = await validarDados(filmeProfissionalCargo)
 
                 if(validar){
-                    profissionalCargo.id = Number(id)
+                    filmeProfissionalCargo.id = Number(id)
 
-                    let result = await profissionalCargoDAO.updateProfissionalCargo(profissionalCargo)
+                    let result = await filmefilmeProfissionalCargoDAO.updateFilmeProfissionalCargo(filmeProfissionalCargo)
                             
                     if(result){
                         customMessage.DEFAULT_MESSAGE.status = configMenssages.SUCCES_UPDATED_ITEM.status
                         customMessage.DEFAULT_MESSAGE.status_code =customMessage.SUCCES_UPDATED_ITEM.status_code
                         customMessage.DEFAULT_MESSAGE.message = customMessage.SUCCES_UPDATED_ITEM.message
-                        customMessage.DEFAULT_MESSAGE.response = profissionalCargo
+                        customMessage.DEFAULT_MESSAGE.response = filmeProfissionalCargo
 
                         return customMessage.DEFAULT_MESSAGE
                     }
@@ -73,17 +73,17 @@ const atualizarProfissionalCargo = async function(profissionalCargo,id){
     }
 }
 
-const listarProfissionalCargo = async function(){
+const listarFilmeProfissionalCargo = async function(){
     let customMessage = JSON.parse(JSON.stringify(configMenssages))
     try {
-            let result = await profissionalCargoDAO.selectAllProfissionalCargo()
+            let result = await filmefilmeProfissionalCargoDAO.selectAllFilmeProfissionalCargo()
         
         if(result){
             if(result.length > 0){
                 customMessage.DEFAULT_MESSAGE.status = customMessage.SUCCES_RESPONSE.status
                 customMessage.DEFAULT_MESSAGE.status_code = customMessage.SUCCES_RESPONSE.status_code
                 customMessage.DEFAULT_MESSAGE.response.cout = result.length
-                customMessage.DEFAULT_MESSAGE.response.profissional_cargo = result
+                customMessage.DEFAULT_MESSAGE.response.filme_profissional_cargo = result
 
                 return customMessage.DEFAULT_MESSAGE
             }
@@ -98,7 +98,7 @@ const listarProfissionalCargo = async function(){
     }
 }
 
-const buscarProfissionalCargo = async function(id){
+const buscarFilmeProfissionalCargo = async function(id){
     let customMessage = JSON.parse(JSON.stringify(configMenssages))
 
     try {
@@ -107,13 +107,13 @@ const buscarProfissionalCargo = async function(id){
             return customMessage.ERROR_BAD_REQUEST
         }
         else{
-            let result = await profissionalCargoDAO.selectByIdProfissionalCargo(id)
+            let result = await filmefilmeProfissionalCargoDAO.selectByIdFilmeProfissionalCargo(id)
 
             if(result){
                 if(result.length >0){
                     customMessage.DEFAULT_MESSAGE.status = customMessage.SUCCES_RESPONSE.status
                     customMessage.DEFAULT_MESSAGE.status_code = customMessage.SUCCES_RESPONSE.status_code
-                    customMessage.DEFAULT_MESSAGE.response.profissional_cargo = result
+                    customMessage.DEFAULT_MESSAGE.response.filme_profissional_cargo = result
     
                     return customMessage.DEFAULT_MESSAGE
                 }
@@ -128,13 +128,13 @@ const buscarProfissionalCargo = async function(id){
     }
 }
 
-const excluirProfissionalCargo = async function(id){
+const excluirFilmeProfissionalCargo = async function(id){
     let customMessage = JSON.parse(JSON.stringify(configMenssages))
 
     try {
-        let resulBuscarprofissionalCargo = await buscarProfissionalCargo(id)
-        if(resulBuscarprofissionalCargo.status){
-            let result = await profissionalCargoDAO.deleteProfissionalCargo(id)
+        let resulBuscarfilmeProfissionalCargo = await buscarFilmeProfissionalCargo(id)
+        if(resulBuscarfilmeProfissionalCargo.status){
+            let result = await filmefilmeProfissionalCargoDAO.deleteFilmeProfissionalCargo(id)
     
             if(result){
                 return customMessage.SUCCES_DELETED_ITEM
@@ -149,15 +149,15 @@ const excluirProfissionalCargo = async function(id){
     }
 }
 
-const validarDados = async function(profissionalCargo){
+const validarDados = async function(filmeProfissionalCargo){
     let customMessage = JSON.parse(JSON.stringify(configMenssages))
 
-    if(profissionalCargo.id_profissional == undefined || profissionalCargo.id_profissional == null || profissionalCargo.id_profissional == '' || profissionalCargo.id_profissional <=0 || isNaN(profissionalCargo.id_profissional)){
-        customMessage.ERROR_BAD_REQUEST.field = '[ID_PROFISSIONAL] INVÁLIDO'
+    if(filmeProfissionalCargo.idFilme == undefined || filmeProfissionalCargo.idFilme == null || filmeProfissionalCargo.idFilme == '' || filmeProfissionalCargo.idFilme <=0 || isNaN(filmeProfissionalCargo.idFilme)){
+        customMessage.ERROR_BAD_REQUEST.field = '[idFilme] INVÁLIDO'
         return customMessage.ERROR_BAD_REQUEST
     }
-    else if(profissionalCargo.id_cargo == undefined || profissionalCargo.id_cargo == null || profissionalCargo.id_cargo == '' || profissionalCargo.id_cargo <=0 || isNaN(profissionalCargo.id_cargo)){
-        customMessage.ERROR_BAD_REQUEST.field = '[ID_CARGO] INVÁLIDO'
+    else if(filmeProfissionalCargo.id_profissional_cargo == undefined || filmeProfissionalCargo.id_profissional_cargo == null || filmeProfissionalCargo.id_profissional_cargo == '' || filmeProfissionalCargo.id_profissional_cargo <=0 || isNaN(filmeProfissionalCargo.id_profissional_cargo)){
+        customMessage.ERROR_BAD_REQUEST.field = '[ID_PROFISSIONAL_CARGO] INVÁLIDO'
         return customMessage.ERROR_BAD_REQUEST
     }
     else
@@ -166,23 +166,23 @@ const validarDados = async function(profissionalCargo){
 
 // Funções da tabela intermediaria
 
-const buscarProfissionalIdCargo = async function(idProfissional){
+const buscarFilmeIdProfissionalCargo = async function(idFilme){
     let customMessage = JSON.parse(JSON.stringify(configMenssages))
 
     try {
-        if(idProfissional == undefined || isNaN(idProfissional) || idProfissional == null || isNaN(idProfissional)|| idProfissional <=0){
-            customMessage.ERROR_BAD_REQUEST.field = '[ID_PROFISSIONAL] INVÁLIDO'
+        if(idFilme == undefined || isNaN(idFilme) || idFilme == null || isNaN(idFilme)|| idFilme <=0){
+            customMessage.ERROR_BAD_REQUEST.field = '[ID_FILME] INVÁLIDO'
             return customMessage.ERROR_BAD_REQUEST
         }
         else{
-            // se der errado é essa linha a baixo
-            let result = await profissionalCargoDAO.selectProfissionalByIdCargo(idProfissional)
+            
+            let result = await filmefilmeProfissionalCargoDAO.selectFilmeByIdProfissionalCargo(idFilme)
 
             if(result){
                 if(result.length >0){
                     customMessage.DEFAULT_MESSAGE.status = customMessage.SUCCES_RESPONSE.status
                     customMessage.DEFAULT_MESSAGE.status_code = customMessage.SUCCES_RESPONSE.status_code
-                    customMessage.DEFAULT_MESSAGE.response.profissional_cargo = result
+                    customMessage.DEFAULT_MESSAGE.response.filme_profissional_cargo = result
     
                     return customMessage.DEFAULT_MESSAGE
                 }
@@ -197,23 +197,22 @@ const buscarProfissionalIdCargo = async function(idProfissional){
     }
 }
 
-const buscarCargoIdProfissional = async function(idCargo){
+const buscarProfissionalCargoIdFilme = async function(idProfissionalCargo){
     let customMessage = JSON.parse(JSON.stringify(configMenssages))
 
     try {
-        if(idCargo == undefined || isNaN(idCargo) || idCargo == null || isNaN(idCargo)|| idCargo <=0){
-            customMessage.ERROR_BAD_REQUEST.field = '[ID_CARGO] INVÁLIDO'
+        if(idProfissionalCargo == undefined || isNaN(idProfissionalCargo) || idProfissionalCargo == null || isNaN(idProfissionalCargo)|| idProfissionalCargo <=0){
+            customMessage.ERROR_BAD_REQUEST.field = '[ID_PROFISSIONAL_CARGO] INVÁLIDO'
             return customMessage.ERROR_BAD_REQUEST
         }
         else{
-            let result = await profissionalCargoDAO.selectCargoByIdProfissional(idCargo)
-            console.log(result)
+            let result = await filmefilmeProfissionalCargoDAO.selectCargoByidFilme(idProfissionalCargo)
+
             if(result){
-                
                 if(result.length >0){
                     customMessage.DEFAULT_MESSAGE.status = customMessage.SUCCES_RESPONSE.status
                     customMessage.DEFAULT_MESSAGE.status_code = customMessage.SUCCES_RESPONSE.status_code
-                    customMessage.DEFAULT_MESSAGE.response.profissional_cargo = result
+                    customMessage.DEFAULT_MESSAGE.response.filme_profissional_cargo = result
     
                     return customMessage.DEFAULT_MESSAGE
                 }
@@ -228,12 +227,12 @@ const buscarCargoIdProfissional = async function(idCargo){
     }
 }
 
-const excluirProfissionalIdCargo = async function(idProfissional){
+const excluirProfissionalCargoIdFIlme = async function(idFilme){
     let customMessage = JSON.parse(JSON.stringify(configMenssages))
 
     try {
         
-        let result = await profissionalCargoDAO.deleteProfissionalByIdCargo(idProfissional)
+        let result = await filmefilmeProfissionalCargoDAO.deleteFilmeByIdProfissionalCargo(idFilme)
     
         if(result)
             return customMessage.SUCCES_DELETED_ITEM
@@ -247,12 +246,12 @@ const excluirProfissionalIdCargo = async function(idProfissional){
 }
 
 module.exports ={
-    inserirProfissionalCargo,
-    atualizarProfissionalCargo,
-    listarProfissionalCargo,
-    buscarProfissionalCargo,
-    excluirProfissionalCargo,
-    buscarProfissionalIdCargo,
-    buscarCargoIdProfissional,
-    excluirProfissionalIdCargo
+    inserirFilmeProfissionalCargo,
+    listarFilmeProfissionalCargo,
+    buscarFilmeProfissionalCargo,
+    atualizarFilmeProfissionalCargo,
+    excluirFilmeProfissionalCargo,
+    buscarFilmeIdProfissionalCargo,
+    buscarProfissionalCargoIdFilme,
+    excluirProfissionalCargoIdFIlme
 }

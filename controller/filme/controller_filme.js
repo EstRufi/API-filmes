@@ -17,6 +17,7 @@ const controllerClassificacao = require('../classificacao/controller_classificac
 
 const controllerFilmeGenero = require ('./controller_filme_genero.js')
 const controlllerFilmeProfissional = require('./controller_filme_profissional.js')
+const controllerFilmeProfissionalCargo = require('./controller_filme_profissional_cargo.js')
 
 // Função para inserir um novo filme
 const inserirNovoFilme = async function(filme, contentType){
@@ -76,6 +77,20 @@ const inserirNovoFilme = async function(filme, contentType){
                             return customMessage.SUCCES_CREATED_ITEM_WARNING
                         }
                         
+                    }
+
+                    for(itemProfissionalCargo of filme.profissional_cargo){
+                        let FilmeProfissionalCargo = {
+                            "id_filme": filme.id,
+                            "id_profissionalCargo": itemProfissionalCargo.id
+                        }
+
+                        let resultFilmeProfissionalCargo = await controllerFilmeProfissionalCargo.inserirFilmeProfissionalCargo(FilmeProfissionalCargo)
+
+                        //validação para ferificar se todos os itens de relacionamento foram inseridos
+                        if(!resultFilmeProfissionalCargo.status){
+                            return customMessage.SUCCES_CREATED_ITEM_WARNING
+                        }  
                     }
 
                     customMessage.DEFAULT_MESSAGE.status =  customMessage.SUCCES_CREATED_ITEM.status
@@ -166,6 +181,24 @@ const atualizarFilme = async function(filme, id, contentType){
                                 }
                             }
 
+                            let resultDeleteProfissionalCargo = await controllerFilmeProfissionalCargo.excluirFilmeProfissionalCargo(filme.id)
+                            if(resultDeleteProfissionalCargo.status){
+                                for(itemProfissionalCargo of filme.profissional_cargo){
+                                    let FilmeProfissionalCargo = {
+                                        "id_filme": filme.id,
+                                        "id_profissional": itemProfissionalCargo.id
+                                    }
+
+                                    let resultFilmeProfissionalCargo = await controllerFilmeProfissionalCargo.inserirFilmeProfissionalCargo(FilmeProfissionalCargo)
+
+                                    //validação para ferificar se todos os itens de relacionamento foram inseridos
+                                    if(!resultFilmeProfissionalCargo.status){
+                                        return customMessage.SUCCES_CREATED_ITEM_WARNING
+                                    }
+                                    
+                                }
+                            }
+
                             customMessage.DEFAULT_MESSAGE.status = customMessage.SUCCES_UPDATED_ITEM.status
                             customMessage.DEFAULT_MESSAGE.status_code = customMessage.SUCCES_UPDATED_ITEM.status_code
                             customMessage.DEFAULT_MESSAGE.message = customMessage.SUCCES_UPDATED_ITEM.message
@@ -250,6 +283,15 @@ const listarFilme = async function(){
                     }
                     else
                         resultProfissional = []
+
+                    // ProfissionalCargo
+                    let resultProfissionalCargo = await controllerFilmeProfissionalCargo.buscarProfissionalCargoIdFilme(filme.id)
+                    
+                    if(resultProfissionalCargo.status){                   
+                        filme.profissional_cargo = resultProfissionalCargo.response.filme_profissional_cargo
+                    }
+                    else
+                        resultProfissionalCargo = []
                 }
                 customMessage.DEFAULT_MESSAGE.status = customMessage.SUCCES_RESPONSE.status
                 customMessage.DEFAULT_MESSAGE.status_code = customMessage.SUCCES_RESPONSE.status_code
@@ -326,6 +368,15 @@ const buscarFilme = async function(id){
                         }
                         else
                             return resultProfissional
+
+                        // ProfissionalCargo
+                        let resultProfissionalCargo = await controllerFilmeProfissionalCargo.buscarProfissionalCargoIdFilme(filme.id)
+                        
+                        if(resultProfissionalCargo.status){                   
+                            filme.profissional_cargo = resultProfissionalCargo.response.filme_profissional_cargo
+                        }
+                        else
+                            resultProfissionalCargo = []
                     }
 
 
