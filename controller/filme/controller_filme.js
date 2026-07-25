@@ -209,9 +209,11 @@ const listarFilme = async function(){
         
         // Validação para verificar se o DAO conseguiu processar o script no BD
         if(result){
+            
             //Validar para verificar se o conteúdo do ARRAy tem dados de
             //retorno ou se está vazio
-            if(result.length > 0){ 
+            if(result.length > 0){
+                
                 for (filme of result) {
                     // fazer classificacao
 
@@ -238,7 +240,7 @@ const listarFilme = async function(){
                         filme.genero = resultGeneros.response.filme_genero
                     }
                     else
-                        return resultGeneros
+                        resultGeneros = []
 
                     // Profissional
                     let resultProfissional = await controlllerFilmeProfissional.buscarProfissionalIdFilme(filme.id)
@@ -247,13 +249,13 @@ const listarFilme = async function(){
                         filme.profissional = resultProfissional.response.filme_profissional
                     }
                     else
-                        return resultProfissional
+                        resultProfissional = []
                 }
                 customMessage.DEFAULT_MESSAGE.status = customMessage.SUCCES_RESPONSE.status
                 customMessage.DEFAULT_MESSAGE.status_code = customMessage.SUCCES_RESPONSE.status_code
                 customMessage.DEFAULT_MESSAGE.response.cout = result.length
                 customMessage.DEFAULT_MESSAGE.response.filme = result
-
+                
                 return customMessage.DEFAULT_MESSAGE
             }
             else{
