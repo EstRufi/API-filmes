@@ -5,6 +5,7 @@ const profissionalDAO = require('../../model/DAO/profissional/profissional.js')
 //  Quando tiver as tabelas intermediarias prontas colocar aqui
 const controllerSexo = require('../sexo/controller_sexo.js')
 const controllerProfissionalNacionalidade = require('../profissional/controller_profissional_nacionalidade.js')
+const controllerProfissionalCargo = require('./controller_profissional_cargo.js')
 
 const inserirProfissional = async function(profissional, contentType){
 
@@ -14,7 +15,6 @@ const inserirProfissional = async function(profissional, contentType){
         if(String(contentType).toUpperCase() == 'APPLICATION/JSON'){
 
             let validar = await validarDados(profissional)
-            console.log(`vali ${validar}`)
             if(!validar){
                 let result = await profissionalDAO.insertProfissional(await tratarDados(profissional))
                 
@@ -35,6 +35,19 @@ const inserirProfissional = async function(profissional, contentType){
                             return customMessage.SUCCES_CREATED_ITEM_WARNING
                         }
                         
+                    }
+
+                    for(itemCargo of profissional.cargo){
+                        let profissionalCargo = {
+                            "id_profissional": profissional.id,
+                            "id_cargo": itemCargo.id
+                        }
+
+                        let resultProfissionalCargo = await controllerProfissionalCargo.inserirProfissionalCargo(profissionalCargo)
+
+                        if(!resultProfissionalCargo.status){
+                            return customMessage.SUCCES_CREATED_ITEM_WARNING
+                        }
                     }
 
                     customMessage.DEFAULT_MESSAGE.status =  customMessage.SUCCES_CREATED_ITEM.status
@@ -81,7 +94,7 @@ const listarProfissional = async function () {
 
                         delete profissional.id_sexo
                     } else {
-                        return resultSexo
+                        resultSexo = []
                     }
 
                     //Aqui coloca as coisas da intermediaria
@@ -92,7 +105,16 @@ const listarProfissional = async function () {
                         profissional.nacionalidade = resultNacionalidade.response.profissional_nacionalidade
                     
                     }else {
-                        return resultNacionalidade
+                        resultNacionalidade = []
+                    }
+
+                    let resultCargo = await controllerProfissionalCargo.buscarCargoIdProfissional(profissional.id)
+
+                    if (resultCargo.status) {
+                        profissional.cargo = resultCargo.response.profissional_cargo
+                    
+                    }else {
+                        resultCargo = []
                     }
                 }
 
@@ -155,6 +177,15 @@ const buscarProfissional = async function(id){
                         else {
                             return resultNacionalidade
                         }
+
+                        let resultCargo = await controllerProfissionalCargo.buscarCargoIdProfissional(profissional.id)
+
+                        if (resultCargo.status) {
+                            profissional.cargo = resultCargo.response.profissional_cargo
+                        
+                        }else {
+                            return resultCargo
+                        }
                     }
 
 
@@ -214,6 +245,19 @@ const atualizarProfissional = async function(profissional, id, contentType){
                                 }
                                 
                             }
+
+                            for(itemCargo of profissional.cargo){
+                                let profissionalCargo = {
+                                    "id_profissional": profissional.id,
+                                    "id_cargo": itemCargo.id
+                                }
+
+                                let resultProfissionalCargo = await controllerProfissionalCargo.inserirProfissionalCargo(profissionalCargo)
+
+                                if(!resultProfissionalCargo.status){
+                                    return customMessage.SUCCES_CREATED_ITEM_WARNING
+                                }
+                            }
                             
                             customMessage.DEFAULT_MESSAGE.status = customMessage.SUCCES_UPDATED_ITEM.status
                             customMessage.DEFAULT_MESSAGE.status_code = customMessage.SUCCES_UPDATED_ITEM.status_code
@@ -257,7 +301,6 @@ const deletarProfissional = async function (id){
         else
             return resultBuscarProfissional
     } catch (error) {
-        console.log(error)
         return customMessage.ERROR_INTERNAL_SERVER_CONTROLLER
     }
 }

@@ -145,9 +145,9 @@ DELIMITER $
 		for each row
         begin
 			delete	from tbl_profissional_nacionalidade where id_profissional = old.id;
+            delete from tbl_profissional_cargo where id_profissional = old.id;
 END$
 
-            
 #show triggers; ver as triggers que tenho
 
 
@@ -222,4 +222,18 @@ create table tbl_filme_profissional(
     constraint FK_PROFISSIONAL_FILMEPROFISSIONAL
     foreign key (id_profissional)
     references tbl_profissional(id)
+);
+
+create table tbl_profissional_cargo(
+	id int not null auto_increment primary key,
+    id_profissional int not null,
+    id_cargo int not null,
+    
+    constraint FK_PROFISSIONAL_PROFISSIONAL_CARGO
+    foreign key (id_profissional)
+    references tbl_profissional(id),
+    
+	constraint FK_CARGO_PROFISSIONAL_CARGO
+    foreign key (id_cargo)
+    references tbl_cargo(id)
 );

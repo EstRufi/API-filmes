@@ -7,7 +7,7 @@ const insertCargo = async function(cargo){
     
    try {
         let sql = `insert into tbl_cargo(
-            cargo
+            atividade
         )value(
             '${cargo.atividade}'
         );`
@@ -61,7 +61,7 @@ const updateCargo = async function(cargo){
         
         let sql = `update tbl_cargo set
             atividade = '${cargo.atividade}'
-            where id = '${nacionalidade.id}';`
+            where id = '${cargo.id}';`
 
         let result = await knexConection.raw(sql)
 
