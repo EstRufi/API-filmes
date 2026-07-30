@@ -73,7 +73,7 @@ const atualizarProfissionalCargo = async function(profissionalCargo,id,contentTy
         else 
             return customMessage.ERROR_CONTENT_TYPE
     } catch (error) {
-        console.log(error)
+        
         return customMessage.ERROR_INTERNAL_SERVER_CONTROLLER   
     }
 }
@@ -99,7 +99,7 @@ const listarProfissionalCargo = async function(){
             return customMessage.ERROR_INTERNAL_SERVER_MODEL
         }
     } catch (error) {
-        console.log(error)
+        
         return customMessage.ERROR_INTERNAL_SERVER_CONTROLLER
     }
 }
@@ -213,7 +213,7 @@ const buscarCargoIdProfissional = async function(idCargo){
         }
         else{
             let result = await profissionalCargoDAO.selectCargoByIdProfissional(idCargo)
-            console.log(result)
+            
             if(result){
                 
                 if(result.length >0){

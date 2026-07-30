@@ -40,7 +40,7 @@ const inserirNovoFilme = async function(filme, contentType){
 
                 // encaminha os dados do filme para o DAO inserir no BD
                 let result = await filmeDAO.insertFilme(await tratarDados(filme))
-
+                
                 if(result){//201
                     // Cria o ID no JSON do filme e adiciona o id gerado no DAO
                     filme.id = result
@@ -82,11 +82,11 @@ const inserirNovoFilme = async function(filme, contentType){
                     for(itemProfissionalCargo of filme.profissional_cargo){
                         let FilmeProfissionalCargo = {
                             "id_filme": filme.id,
-                            "id_profissionalCargo": itemProfissionalCargo.id
+                            "id_profissional_cargo": itemProfissionalCargo.id
                         }
 
                         let resultFilmeProfissionalCargo = await controllerFilmeProfissionalCargo.inserirFilmeProfissionalCargo(FilmeProfissionalCargo)
-
+                        
                         //validação para ferificar se todos os itens de relacionamento foram inseridos
                         if(!resultFilmeProfissionalCargo.status){
                             return customMessage.SUCCES_CREATED_ITEM_WARNING
@@ -97,7 +97,7 @@ const inserirNovoFilme = async function(filme, contentType){
                     customMessage.DEFAULT_MESSAGE.status_code = customMessage.SUCCES_CREATED_ITEM.status_code
                     customMessage.DEFAULT_MESSAGE.message = customMessage.SUCCES_CREATED_ITEM.message
                     customMessage.DEFAULT_MESSAGE.response = filme
-
+                    
                     return customMessage.DEFAULT_MESSAGE 
                 }
                 else{ // erro 500 (model)
@@ -186,7 +186,7 @@ const atualizarFilme = async function(filme, id, contentType){
                                 for(itemProfissionalCargo of filme.profissional_cargo){
                                     let FilmeProfissionalCargo = {
                                         "id_filme": filme.id,
-                                        "id_profissional": itemProfissionalCargo.id
+                                        "id_profissional_cargo": itemProfissionalCargo.id
                                     }
 
                                     let resultFilmeProfissionalCargo = await controllerFilmeProfissionalCargo.inserirFilmeProfissionalCargo(FilmeProfissionalCargo)
@@ -291,6 +291,7 @@ const listarFilme = async function(){
                         filme.profissional_cargo = resultProfissionalCargo.response.filme_profissional_cargo
                     }
                     else
+                        
                         resultProfissionalCargo = []
                 }
                 customMessage.DEFAULT_MESSAGE.status = customMessage.SUCCES_RESPONSE.status

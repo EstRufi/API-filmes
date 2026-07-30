@@ -10,7 +10,7 @@ const inserirFilmeProfissional = async function(filmeProfissional){
             
             if(validar){
                 let result = await filmeProfissionalDAO.insertfilmeProfissional(filmeProfissional)
-                console.log(result)
+            
                 if(result){
                     filmeProfissional.id = result
 

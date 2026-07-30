@@ -206,8 +206,7 @@ const buscarProfissionalCargoIdFilme = async function(idProfissionalCargo){
             return customMessage.ERROR_BAD_REQUEST
         }
         else{
-            let result = await filmefilmeProfissionalCargoDAO.selectCargoByidFilme(idProfissionalCargo)
-
+            let result = await filmefilmeProfissionalCargoDAO.selectFilmeByIdProfissionalCargo(idProfissionalCargo)
             if(result){
                 if(result.length >0){
                     customMessage.DEFAULT_MESSAGE.status = customMessage.SUCCES_RESPONSE.status

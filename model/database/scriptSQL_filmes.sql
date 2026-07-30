@@ -1,16 +1,21 @@
 	#Permite criar um database
-create database db_filmes_20261_b;
+create database db_filmes_estela_2026;
 
 	#Permite visualizae todos os databases existentes 
 show databases;
 
 	#Permite escolher o database a ser utilizado
-use db_filmes_20261_b;
+use db_filmes_estela_2026;
 
 	#Permite visualizar todas as tabelas existentes dentro do database
 show tables;
 
-## ESTA FALTANDO O ID CLASSIFICACAO POR ISSO NÃO VAI
+	# CLassificacao
+create table tbl_classificacao(
+	id int not null auto_increment primary key,
+    classificacao_filme varchar(15) not null
+);
+
 create table tbl_filme (
 	id 					int not null auto_increment primary key,
     nome 				varchar(85) not null,
@@ -104,12 +109,6 @@ create table tbl_filme (
  );
 
 # delete from tbl_genero where id = 1;
- 
-	# CLassificacao
-create table tbl_classificacao(
-	id int not null auto_increment primary key,
-    classificacao_filme varchar(15) not null
-);
 
 insert into tbl_classificacao(
 	classificacao_filme
@@ -135,18 +134,9 @@ DELIMITER $
 #aqui falo de qual tabela tbm vou mecher(intermediaria), quando vou mecher tenho que colocar no final se o id ira muda(no caso aqui antes de eu deleter por conta do old, se fosse depois era new)
 				delete from tbl_filme_genero where id_filme = old.id;
                 delete from tbl_filme_profissional where id_filme = old.id;
+                delete from tbl_filme_profissionalcargo where id_filme = old.id;
 # end é o fim (cabooo)
 END $
-
-
-DELIMITER $
-	create trigger trg_delete_profissional
-    before delete on tbl_profissional
-		for each row
-        begin
-			delete	from tbl_profissional_nacionalidade where id_profissional = old.id;
-            delete from tbl_profissional_cargo where id_profissional = old.id;
-END$
 
 #show triggers; ver as triggers que tenho
 
@@ -251,3 +241,12 @@ create table tbl_filme_profissionalcargo(
     foreign key (id_profissional_cargo)
     references tbl_profissional_cargo(id)
 );
+
+DELIMITER $
+	create trigger trg_delete_profissional
+    before delete on tbl_profissional
+		for each row
+        begin
+			delete	from tbl_profissional_nacionalidade where id_profissional = old.id;
+            delete from tbl_profissional_cargo where id_profissional = old.id;
+END$
