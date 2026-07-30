@@ -21,3 +21,31 @@ router.get('/',async function (request, response){
     response.status(result.status_code)
     response.json(result)
 })
+
+router.get('/:id', async function(request,response){
+    let id = request.params.id
+    let result = await controllerProfissionalCargo.buscarProfissionalCargo(id)
+
+    response.status(result.status_code)
+    response.json(result)
+})
+
+router.put('/:id',bodyParserJson, async function (request,response){
+    let id = request.params.id
+    let dados = request.body
+    let contentType = request.headers['content-type']
+    let result = await controllerProfissionalCargo.atualizarProfissionalCargo(dados,id,contentType)
+
+    response.status(result.status_code)
+    response.json(result)
+})
+
+router.delete('/:id',async function(request, response){
+    let id = request.params.id
+    let result = await controllerProfissionalCargo.excluirProfissionalCargo(id)
+
+    response.status(result.status_code)
+    response.json(result)
+})
+
+module.exports = router

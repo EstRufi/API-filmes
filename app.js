@@ -50,6 +50,10 @@ app.use('/v1/senai/locadora/sexo',cors(),sexoRouter)
 const profissionalRouter = require('./routes/profissional.router.js')
 app.use('/v1/senai/locadora/profissional',cors(),profissionalRouter)
 
+// ProfissionalCargo
+const profissionalCargoRouter = require('./routes/profissionalCargo.router.js')
+app.use('/v1/senai/locadora/profissional-cargo',cors(),profissionalCargoRouter)
+
 //Fazer o Start na API (aguardando as requisições)
 app.listen(8080, function(){
     console.log("API aguardando novas requisições . . . .")

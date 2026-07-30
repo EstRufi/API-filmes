@@ -33,42 +33,47 @@ const inserirProfissionalCargo = async function(profissionalCargo){
     }
 }
 
-const atualizarProfissionalCargo = async function(profissionalCargo,id){
+const atualizarProfissionalCargo = async function(profissionalCargo,id,contentType){
     let customMessage = JSON.parse(JSON.stringify(configMenssages))
     try {
- 
-        let resulBuscarId = await buscarProfissionalCargo(id)
-            
-        if(resulBuscarId.status){
-            if(resulBuscarId){
-                let validar = await validarDados(profissionalCargo)
-
-                if(validar){
-                    profissionalCargo.id = Number(id)
-
-                    let result = await profissionalCargoDAO.updateProfissionalCargo(profissionalCargo)
-                            
-                    if(result){
-                        customMessage.DEFAULT_MESSAGE.status = configMenssages.SUCCES_UPDATED_ITEM.status
-                        customMessage.DEFAULT_MESSAGE.status_code =customMessage.SUCCES_UPDATED_ITEM.status_code
-                        customMessage.DEFAULT_MESSAGE.message = customMessage.SUCCES_UPDATED_ITEM.message
-                        customMessage.DEFAULT_MESSAGE.response = profissionalCargo
-
-                        return customMessage.DEFAULT_MESSAGE
+        if (String(contentType).toUpperCase() == 'APPLICATION/JSON') {
+            let resulBuscarId = await buscarProfissionalCargo(id)
+                
+            if(resulBuscarId.status){
+                if(resulBuscarId){
+                    let validar = await validarDados(profissionalCargo)
+        
+                    if(validar){
+                        profissionalCargo.id = Number(id)
+        
+                        let result = await profissionalCargoDAO.updateProfissionalCargo(profissionalCargo)
+                        if(result){
+                            customMessage.DEFAULT_MESSAGE.status = configMenssages.SUCCES_UPDATED_ITEM.status
+                            customMessage.DEFAULT_MESSAGE.status_code =customMessage.SUCCES_UPDATED_ITEM.status_code
+                            customMessage.DEFAULT_MESSAGE.message = customMessage.SUCCES_UPDATED_ITEM.message
+                            customMessage.DEFAULT_MESSAGE.response = profissionalCargo
+        
+                            return customMessage.DEFAULT_MESSAGE
+                        }
+                        else{
+                            return customMessage.ERROR_INTERNAL_SERVER_MODEL
+                        }
                     }
                     else{
-                        return customMessage.ERROR_INTERNAL_SERVER_MODEL
+                        return validar
                     }
                 }
                 else{
-                    return validar
+                    return customMessage.ERROR_BAD_REQUEST
                 }
             }
-            else{
-                return customMessage.ERROR_BAD_REQUEST
-            }
-        }
+            else
+                return resulBuscarId
+        } 
+        else 
+            return customMessage.ERROR_CONTENT_TYPE
     } catch (error) {
+        console.log(error)
         return customMessage.ERROR_INTERNAL_SERVER_CONTROLLER   
     }
 }
@@ -94,6 +99,7 @@ const listarProfissionalCargo = async function(){
             return customMessage.ERROR_INTERNAL_SERVER_MODEL
         }
     } catch (error) {
+        console.log(error)
         return customMessage.ERROR_INTERNAL_SERVER_CONTROLLER
     }
 }

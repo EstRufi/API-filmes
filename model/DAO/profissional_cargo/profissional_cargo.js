@@ -57,9 +57,9 @@ const selectAllProfissionalCargo = async function () {
 
 const updateProfissionalCargo = async function(profissionalCargo){
     try {
-        let sql = ` update tbl_filme_profissional set
-            id_prfissional = ${profissionalCargo.id_profissional},
-            id_cargo = ${profissionalCargo.id_cargo},
+        let sql = ` update tbl_profissional_cargo set
+            id_profissional = ${profissionalCargo.id_profissional},
+            id_cargo = ${profissionalCargo.id_cargo}
             where id = '${profissionalCargo.id}';`
         let result = await knexConection.raw(sql)
 
